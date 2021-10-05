@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".SignInActivity">
+
+    <TextView
+        android:id="@+id/tv_signIn_emailTitle"
+        style="@style/signInStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="이메일" />
+
+    <EditText
+        android:id="@+id/et_signIn_emailInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/bg_round_et"
+        android:hint="0000@naver.com"
+        style="@style/btnStyle"
+      />
+
+    <Button
+        android:id="@+id/btn_singIn_next"
+        style="@style/btnStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:textColor="@color/black"
+        android:background="@drawable/bg_round_et"
+        android:text="다음"
+        app:backgroundTint="@color/white" />
+
+
+    <!--    <Button-->
+    <!--        android:layout_marginTop="200dp"-->
+    <!--        android:padding="10dp"-->
+    <!--        android:text="구글 로그인"-->
+    <!--        style="@style/btnStyle"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:id="@+id/btn_singIn_goole"/>-->
+
+    <!--    <Button-->
+    <!--        android:padding="10dp"-->
+    <!--        android:text="카카오톡 로그인"-->
+    <!--        style="@style/btnStyle"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:id="@+id/btn_singIn_kakao"/>-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_signIn_findPw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="비밀번호 찾기" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_signIn_signUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="회원가입" />
+
+    </LinearLayout>
+
+</LinearLayout>
