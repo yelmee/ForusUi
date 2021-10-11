@@ -3,9 +3,9 @@ package com.example.forusuistudy
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
-class SignInActivity : AppCompatActivity() {
+class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sign_in)
+        setContentView(R.layout.activity_splash)
     }
 }

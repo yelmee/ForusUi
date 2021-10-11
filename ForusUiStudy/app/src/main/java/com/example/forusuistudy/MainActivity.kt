@@ -5,14 +5,16 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.annotation.RequiresApi
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
 
 class MainActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val view = CustomView(this)
-        view.setBackgroundColor(Color.GRAY)
 
-        setContentView(view)
+        setContentView(R.layout.activity_main)
+//        val navHostFragment =supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
+//        val navController = navHostFragment.navController
     }
 }

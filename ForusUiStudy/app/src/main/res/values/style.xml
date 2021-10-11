@@ -1,11 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="signInStyle">
         <item name="android:padding">20dp</item>
     </style>
+
     <style name="btnStyle">
         <item name="android:padding">15dp</item>
-        <item name="android:layout_marginLeft">10dp</item>
-        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:width">328dp</item>
+        <item name="height">48dp</item>
+        <item name="android:textSize">12dp</item>
+    </style>
+
+    <style name="warnTextStyle">
+        <item name="android:textSize">10dp</item>
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:textColor">#FD1E1E</item>
+    </style>
+
+    <style name="textPadding">
+        <item name="android:paddingRight">12dp</item>
+    </style>
+
+    <style name="topNavTextStyle">
+        <item name="android:textSize">20dp</item>
+        <item name="android:layout_marginTop">19dp</item>
+        <item name="android:layout_marginBottom">14dp</item>
     </style>
 </resources>
