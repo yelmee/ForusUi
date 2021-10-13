@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_signInFragment_to_findPwFragment"
             app:destination="@id/findPwFragment" />
+        <action
+            android:id="@+id/action_signInFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
     </fragment>
     <fragment
         android:id="@+id/logInFragment"
@@ -38,4 +41,8 @@
         android:name="com.example.forusuistudy.SignUpFragment"
         android:label="fragment_sign_up"
         tools:layout="@layout/fragment_sign_up" />
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.example.forusuistudy.MainFragment"
+        android:label="MainFragment" />
 </navigation>

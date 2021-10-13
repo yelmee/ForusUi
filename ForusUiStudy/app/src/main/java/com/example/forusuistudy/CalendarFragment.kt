@@ -7,9 +7,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import com.example.forusuistudy.R
+import com.example.forusuistudy.databinding.FragmentCalendarBinding
 import com.leveloper.infinitecalendar.utils.CalendarUtils.Companion.getMonthList
 import com.leveloper.infinitecalendar.utils.CalendarUtils.Companion.getWeekOfMonth
-import kotlinx.android.synthetic.main.fragment_calendar.view.*
 import org.joda.time.DateTime
 import org.joda.time.LocalDateTime
 
@@ -29,17 +31,22 @@ class CalendarFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_calendar, container, false)
+        val binding = DataBindingUtil.inflate<FragmentCalendarBinding>(
+            inflater,
+            R.layout.fragment_calendar,
+            container,
+            false
+        )
 
-        view.millis.text = DateTime(millis).toString("yyyy-MM")
-        view.calendarView.initCalendar(DateTime(millis), getMonthList(DateTime(millis)).first)
+        binding.millis.text = DateTime(millis).toString("yyyy-MM")
+        binding.calendarView.initCalendar(DateTime(millis), getMonthList(DateTime(millis)).first)
 
         prevCount = getMonthList(DateTime(millis)).second
 
         Log.d("jyl","week:"+getWeekOfMonth(DateTime().withDayOfMonth(14)))
 
 //        view.rectangleView.initRect()
-        return view
+        return binding.root
     }
 
     companion object {

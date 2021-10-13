@@ -9,7 +9,7 @@ import androidx.annotation.AttrRes
 import androidx.annotation.StyleRes
 import androidx.core.content.withStyledAttributes
 import androidx.core.view.children
-import com.leveloper.infinitecalendar.R
+import com.example.forusuistudy.R
 import com.leveloper.infinitecalendar.utils.CalendarUtils.Companion.WEEKS_PER_MONTH
 import org.joda.time.DateTime
 import org.joda.time.DateTimeConstants.DAYS_PER_WEEK

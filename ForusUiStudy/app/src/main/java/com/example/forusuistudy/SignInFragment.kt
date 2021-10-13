@@ -29,5 +29,11 @@ class SignInFragment: Fragment() {
             val navDirections = SignInFragmentDirections.actionSignInFragmentToFindPwFragment()
             it.findNavController().navigate(navDirections)
         }
+
+        binding.btnSingInNext.setOnClickListener{
+            val navDirections = SignInFragmentDirections.actionSignInFragmentToMainFragment()
+            it.findNavController().navigate(navDirections)
+        }
+
     }
 }

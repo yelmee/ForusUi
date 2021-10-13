@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CalendarView">
+        <attr name="calendarViewStyle" format="reference" />
+        <attr name="itemViewStyle" format="reference" />
+
+        <attr name="dayHeight" format="dimension"/>
+        <attr name="dayTextSize" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="RectView">
+        <attr name="rectHeight" format="dimension"/>
+        <attr name="rectViewStyle" format="reference"/>
+
+        <attr name="termFrom" format="string"/>
+        <attr name="termTo" format="string"/>
+    </declare-styleable>
+</resources>

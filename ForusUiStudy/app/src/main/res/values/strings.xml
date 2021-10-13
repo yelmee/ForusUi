@@ -2,4 +2,17 @@
     <string name="app_name">ForusUiStudy</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="main_my_info">내 정보</string>
+    <string name="main_name">홍길동</string>
+    <string name="main_my_goal">좌우명 / 목표 내용</string>
+    <string name="main_group_name">그룹명</string>
+    <string name="main_today_list">Today List</string>
+    <string name="main_all_list">전체</string>
+    <string name="main_todo">할일</string>
+    <string name="main_finish">완료</string>
+    <string name="dialog_title">작성하기</string>
+    <string name="dialog_hint_content">배움명을 작성하세요.(20자 내외)</string>
+    <string name="dialog_hint_period">0000.00.00~0000.00.00</string>
+    <string name="dialog_hint_url">URL을 추가하세요.</string>
+    <string name="dialog_hint_tag">@로 검색하세요</string>
 </resources>

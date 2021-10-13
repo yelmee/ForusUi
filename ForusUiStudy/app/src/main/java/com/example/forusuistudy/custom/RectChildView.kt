@@ -11,8 +11,8 @@ import android.view.View
 import androidx.annotation.AttrRes
 import androidx.annotation.StyleRes
 import androidx.core.content.withStyledAttributes
+import com.example.forusuistudy.R
 import com.leveloper.infinitecalendar.CalendarFragment
-import com.leveloper.infinitecalendar.R
 import com.leveloper.infinitecalendar.data.PlanSet
 import com.leveloper.infinitecalendar.utils.CalendarUtils
 import org.joda.time.DateTimeConstants.DAYS_PER_WEEK

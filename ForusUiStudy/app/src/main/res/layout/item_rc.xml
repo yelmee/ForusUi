@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/tv_rcItem_title"
+    app:layout_constraintTop_toTopOf="parent"
+    tools:text="CSS 배우기"
+    app:layout_constraintLeft_toLeftOf="parent"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="2021.06.01~2021.06.22"
+        android:id="@+id/tv_rcItem_period"
+        app:layout_constraintTop_toBottomOf="@id/tv_rcItem_title"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+    <SeekBar
+        android:id="@+id/seekbar"
+        app:layout_constraintTop_toBottomOf="@id/tv_rcItem_period"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:progress="5"
+        android:max="10"
+        android:thumb="@color/teal_700"
+        android:progressDrawable="@drawable/seekbar_seekbar1"
+        android:thumbTint="#00000000"/>
+    <TextView
+        app:layout_constraintTop_toBottomOf="@id/seekbar"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:id="@+id/tv_rcItem_url"
+        tools:text="URL: http://naver.com"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

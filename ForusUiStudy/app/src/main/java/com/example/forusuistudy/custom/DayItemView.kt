@@ -11,7 +11,7 @@ import android.view.View
 import androidx.annotation.AttrRes
 import androidx.annotation.StyleRes
 import androidx.core.content.withStyledAttributes
-import com.leveloper.infinitecalendar.R
+import com.example.forusuistudy.R
 import com.leveloper.infinitecalendar.utils.CalendarUtils.Companion.getDateColor
 import com.leveloper.infinitecalendar.utils.CalendarUtils.Companion.isSameMonth
 import org.joda.time.DateTime
