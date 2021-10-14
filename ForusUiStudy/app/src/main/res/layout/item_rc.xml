@@ -1,42 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/tv_rcItem_title"
-    app:layout_constraintTop_toTopOf="parent"
-    tools:text="CSS 배우기"
-    app:layout_constraintLeft_toLeftOf="parent"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="2021.06.01~2021.06.22"
-        android:id="@+id/tv_rcItem_period"
-        app:layout_constraintTop_toBottomOf="@id/tv_rcItem_title"
-        app:layout_constraintLeft_toLeftOf="parent"/>
-    <SeekBar
-        android:id="@+id/seekbar"
-        app:layout_constraintTop_toBottomOf="@id/tv_rcItem_period"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:progress="5"
-        android:max="10"
-        android:thumb="@color/teal_700"
-        android:progressDrawable="@drawable/seekbar_seekbar1"
-        android:thumbTint="#00000000"/>
-    <TextView
-        app:layout_constraintTop_toBottomOf="@id/seekbar"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:id="@+id/tv_rcItem_url"
-        tools:text="URL: http://naver.com"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <data>
+        <variable
+            name="item"
+            type="com.example.forusuistudy.data.Plan" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:background="@drawable/bg_round_et"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/bookmark_on"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:id="@+id/iv_itemRc_bookMark"/>
+
+        <TextView
+            android:layout_margin="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_round_et"
+            tools:text="Today"
+            android:padding="10dp"
+            android:id="@+id/tv_itemRc_badge"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:padding="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <SeekBar
+                android:layout_marginTop="20dp"
+                android:id="@+id/seekbar"
+                android:layout_marginRight="60dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="10"
+                android:progress="@{item.progress}"
+                android:progressDrawable="@drawable/seekbar_seekbar1"
+                android:thumb="@color/transparent"
+                android:thumbTint="#00000000"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_rcItem_period" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_item_rc_percentage"
+                app:layout_constraintTop_toTopOf="@id/seekbar"
+                app:layout_constraintBottom_toBottomOf="@id/seekbar"
+                app:layout_constraintLeft_toRightOf="@id/seekbar"
+                tools:text="45%"/>
+
+            <ImageView
+                android:layout_marginLeft="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/check_on"
+                android:id="@+id/iv_item_rc_checked"
+                app:layout_constraintLeft_toRightOf="@id/tv_item_rc_percentage"
+                app:layout_constraintTop_toTopOf="@id/tv_item_rc_percentage"
+                app:layout_constraintBottom_toBottomOf="@id/tv_item_rc_percentage"/>
+
+            <TextView
+                android:id="@+id/tv_rcItem_period"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_height="wrap_content"
+                style="@style/TEXT_SMALL_GRAY_STYLE"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_rcItem_title"
+                app:start="@{item.termFrom}"
+                app:end="@{item.termTo}"
+                tools:text="2021.06.01~2021.06.22" />
+
+            <TextView
+                android:layout_marginLeft="20dp"
+                android:id="@+id/tv_rcItem_title"
+                style="@style/TEXT_BOLD_TITLE_STYLE"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{item.title}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="CSS 배우기" />
+
+            <TextView
+                android:id="@+id/tv_rcItem_url"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="@{item.url}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/seekbar"
+                tools:text="URL: http://naver.com" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

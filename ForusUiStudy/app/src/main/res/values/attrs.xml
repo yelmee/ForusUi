@@ -15,4 +15,11 @@
         <attr name="termFrom" format="string"/>
         <attr name="termTo" format="string"/>
     </declare-styleable>
+
+    <declare-styleable name="DayView">
+        <attr name="dayViewStyle" format="reference"/>
+
+        <attr name="dayOfMonthHeight" format="dimension"/>
+        <attr name="dayOfMonthTextSize" format="dimension"/>
+    </declare-styleable>
 </resources>

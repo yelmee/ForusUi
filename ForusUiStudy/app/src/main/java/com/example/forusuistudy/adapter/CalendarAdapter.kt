@@ -1,8 +1,9 @@
-package com.leveloper.infinitecalendar
+package com.example.forusuistudy.adapter
 
 import android.util.Log
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.example.forusuistudy.ui.CalendarFragment
 import org.joda.time.DateTime
 
 class CalendarAdapter(fm: FragmentActivity) : FragmentStateAdapter(fm) {

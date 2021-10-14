@@ -26,8 +26,8 @@
     </style>
 
     <style name="iconStyle">
-        <item name="android:layout_width">30dp</item>
-        <item name="android:layout_height">30dp</item>
+        <item name="android:layout_width">24dp</item>
+        <item name="android:layout_height">24dp</item>
         <item name="background">@drawable/bg_round_et</item>
         <item name="android:layout_margin">10dp</item>
     </style>
@@ -38,6 +38,18 @@
         <item name="android:layout_marginBottom">14dp</item>
     </style>
 
+    <style name="TEXT_BOLD_TITLE_STYLE">
+        <item name="android:textSize">18dp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TEXT_SMALL_GRAY_STYLE">
+        <item name="android:padding">3dp</item>
+        <item name="android:textSize">12dp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
     <style name="Calendar"/>
 
     <style name="Calendar.HeaderDateText">
@@ -46,19 +58,28 @@
     </style>
 
     <style name="Calendar.CalendarViewStyle">
-        <item name="dayHeight">44dp</item>
+        <item name="dayHeight">60dp</item>
     </style>
 
     <style name="Calendar.ItemViewStyle">
         <item name="dayTextSize">14dp</item>
     </style>
 
+    <style name="Day"/>
+    <style name="Day.DayViewStyle">
+        <item name="dayOfMonthHeight">25dp</item>
+    </style>
+
+    <style name="Day.DayViewStyle.TextStyle">
+    <item name="dayOfMonthTextSize">20dp</item>
+    </style>
     <style name="Rect"/>
     <style name="Rect.rectShape">
         <item name="termFrom"></item>
     </style>
 
     <style name="Rect.RectViewStyle">
-        <item name="rectHeight">44dp</item>
+        <item name="rectHeight">60dp</item>
     </style>
+
 </resources>

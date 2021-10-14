@@ -1,17 +1,16 @@
-package com.leveloper.infinitecalendar
+package com.example.forusuistudy.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.DataBindingUtil.setContentView
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.example.forusuistudy.R
+import com.example.forusuistudy.adapter.CalendarAdapter
 import com.example.forusuistudy.databinding.ActivityCalendarBinding
-import java.util.*
+
 class MainCalendarFragment : Fragment() {
 
     private lateinit var calendarAdapter: CalendarAdapter

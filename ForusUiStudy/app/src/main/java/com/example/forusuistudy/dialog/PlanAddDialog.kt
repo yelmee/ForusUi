@@ -1,9 +1,10 @@
-package com.example.forusuistudy
+package com.example.forusuistudy.dialog
 
 import android.app.Dialog
 import android.content.Context
 import android.view.Window
 import android.view.WindowManager
+import com.example.forusuistudy.R
 
 /**
  *Created By Yelim ON 2021/10/13

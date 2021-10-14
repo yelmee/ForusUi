@@ -1,4 +1,4 @@
-package com.example.forusuistudy
+package com.example.forusuistudy.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
+import com.example.forusuistudy.R
 import com.example.forusuistudy.databinding.FragmentLogInBinding
 
 class LogInFragment: Fragment() {
@@ -28,14 +29,15 @@ class LogInFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnLogInEmailLogin.setOnClickListener {
-            val direction: NavDirections = LogInFragmentDirections
-                .actionLogInFragmentToSignInFragment()
+            val direction: NavDirections =
+                LogInFragmentDirections.actionLogInFragmentToSignInFragment()
 
             it.findNavController().navigate(direction)
         }
 
         binding.tvLogInSignUpBtn.setOnClickListener {
-            val directions: NavDirections = LogInFragmentDirections.actionLogInFragmentToSignUpFragment()
+            val directions: NavDirections =
+                LogInFragmentDirections.actionLogInFragmentToSignUpFragment()
             it.findNavController().navigate(directions)
         }
     }

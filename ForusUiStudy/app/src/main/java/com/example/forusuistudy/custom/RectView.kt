@@ -1,4 +1,4 @@
-package com.leveloper.infinitecalendar.custom
+package com.example.forusuistudy.custom
 
 import android.content.ContentValues.TAG
 import android.content.Context
@@ -11,14 +11,15 @@ import androidx.annotation.AttrRes
 import androidx.annotation.StyleRes
 import androidx.core.content.withStyledAttributes
 import androidx.core.view.children
+import com.example.forusuistudy.ui.CalendarFragment
 import com.example.forusuistudy.R
-import com.leveloper.infinitecalendar.CalendarFragment
-import com.leveloper.infinitecalendar.data.Plan
-import com.leveloper.infinitecalendar.data.PlanSet
-import com.leveloper.infinitecalendar.utils.CalendarUtils
-import com.leveloper.infinitecalendar.utils.CalendarUtils.Companion.WEEKS_PER_MONTH
-import com.leveloper.infinitecalendar.utils.CalendarUtils.Companion.getPrevOffSet
-import com.leveloper.infinitecalendar.utils.CalendarUtils.Companion.getWeekOfMonth
+import com.example.forusuistudy.data.Plan
+import com.example.forusuistudy.data.PlanSet
+import com.example.forusuistudy.utils.CalendarUtils
+import com.example.forusuistudy.utils.CalendarUtils.Companion.WEEKS_PER_MONTH
+import com.example.forusuistudy.utils.CalendarUtils.Companion.addTime
+import com.example.forusuistudy.utils.CalendarUtils.Companion.getPrevOffSet
+import com.example.forusuistudy.utils.CalendarUtils.Companion.getWeekOfMonth
 import org.joda.time.DateTime
 import org.joda.time.DateTimeConstants.DAYS_PER_WEEK
 import org.joda.time.Days
@@ -60,7 +61,7 @@ class RectView @JvmOverloads constructor(
         }
         var data = Plan(1, "알고리즘 공부", addTime(12), addTime(14), "www.naver.com", 12, 80)
         originList.add(data)
-        data = Plan(1, "알고리즘 공부", addTime(11), addTime(20), "www.naver.com", 12, 80)
+        data = Plan(1, "안드로이드 개념 공부", addTime(11), addTime(20), "www.naver.com", 12, 80)
         originList.add(data)
 
         val allDay = WEEKS_PER_MONTH * DAYS_PER_WEEK
@@ -148,40 +149,36 @@ class RectView @JvmOverloads constructor(
 //        binding.planData = data
 //    }
 
-    private fun addTime(day: Int): String? {
-        val date = DateTime().withDayOfMonth(day).withTimeAtStartOfDay()
-        return date.toString(fmt)
-    }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
          iWidth = (width / DAYS_PER_WEEK).toFloat()
-         iHeight = (height / CalendarUtils.WEEKS_PER_MONTH).toFloat()
+         iHeight = (height / WEEKS_PER_MONTH).toFloat()
         Log.d("jyl", "onLayout: rect $iHeight")
 
         initRect()
-        var currentWeekIndex = 1
-        var preWeekIndex = 0
+        var currentWeekIndex = 1    // array의 인덱
         val prevCount = CalendarFragment.prevCount
-        var lineNum = 1
         children.forEach { view ->
 
-            if (preWeekIndex != currentWeekIndex) {
-                preWeekIndex = currentWeekIndex
-                lineNum = 1
+            val topMargin = - 5
+            if (currentWeekIndex >= list.size) {
+                return
             }
-            val rectPosition = 90
-            val row = list[currentWeekIndex - 1].size - 1
+            val row = list[currentWeekIndex - 1].size
+
+            val rectHeight = 240
+
             view.layout(
                 0,
-                ((currentWeekIndex - 2) * iHeight.toInt()) + rectPosition,
+                ((currentWeekIndex - 2) * iHeight.toInt()) + topMargin  ,
                 width,
-                ((currentWeekIndex - 2) * iHeight.toInt()) + rectPosition + (200)
+                ((currentWeekIndex - 2) * iHeight.toInt()) + topMargin + (row * rectHeight)
             )
             currentWeekIndex++
         }
     }
 
-    fun initRect() {
+    private fun initRect() {
         var index = 0
         Log.d(TAG, "initRect: ")
         list.forEach { _ ->

@@ -1,4 +1,4 @@
-package com.leveloper.infinitecalendar.data
+package com.example.forusuistudy.data
 
 import org.joda.time.DateTime
 import java.util.*

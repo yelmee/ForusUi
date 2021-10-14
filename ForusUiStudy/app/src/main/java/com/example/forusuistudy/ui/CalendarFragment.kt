@@ -1,8 +1,7 @@
-package com.leveloper.infinitecalendar
+package com.example.forusuistudy.ui
 
 import android.os.Bundle
 import android.util.Log
-import android.util.TimeUtils
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,10 +9,9 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.example.forusuistudy.R
 import com.example.forusuistudy.databinding.FragmentCalendarBinding
-import com.leveloper.infinitecalendar.utils.CalendarUtils.Companion.getMonthList
-import com.leveloper.infinitecalendar.utils.CalendarUtils.Companion.getWeekOfMonth
+import com.example.forusuistudy.utils.CalendarUtils.Companion.getMonthList
+import com.example.forusuistudy.utils.CalendarUtils.Companion.getWeekOfMonth
 import org.joda.time.DateTime
-import org.joda.time.LocalDateTime
 
 class CalendarFragment : Fragment() {
 
@@ -38,15 +36,22 @@ class CalendarFragment : Fragment() {
             false
         )
 
-        binding.millis.text = DateTime(millis).toString("yyyy-MM")
+        Log.d("jyl", "onCreateView: start")
+        binding.calendarMonthNum.text = DateTime(millis).toString("yyyy.MM")
         binding.calendarView.initCalendar(DateTime(millis), getMonthList(DateTime(millis)).first)
-
+        binding.dayOfMonthView.initCalendar()
         prevCount = getMonthList(DateTime(millis)).second
 
         Log.d("jyl","week:"+getWeekOfMonth(DateTime().withDayOfMonth(14)))
 
 //        view.rectangleView.initRect()
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        Log.d("jyl", "onViewCreated: start")
+
     }
 
     companion object {

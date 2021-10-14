@@ -1,4 +1,4 @@
-package com.leveloper.infinitecalendar.utils
+package com.example.forusuistudy.utils
 
 import android.graphics.Color
 import android.util.Log
@@ -8,12 +8,14 @@ import org.joda.time.DateTime
 import org.joda.time.DateTimeConstants
 import org.joda.time.LocalDateTime
 import org.joda.time.Weeks
+import org.joda.time.format.DateTimeFormat
 
 class CalendarUtils {
 
     companion object {
 
         const val WEEKS_PER_MONTH = 6
+        private val fmt = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss")
 
         /**
          * 선택된 날짜에 해당하는 월간 달력을 반환한다.
@@ -80,5 +82,9 @@ class CalendarUtils {
                 date).weeks + 1
         }
 
+        fun addTime(day: Int): String? {
+            val date = DateTime().withDayOfMonth(day).withTimeAtStartOfDay()
+            return date.toString(fmt)
+        }
     }
 }

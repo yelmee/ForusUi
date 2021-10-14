@@ -3,31 +3,42 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="planData"
-            type="com.leveloper.infinitecalendar.data.Plan" />
+            type="com.example.forusuistudy.data.Plan" />
     </data>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="2021.06"
+            style="@style/TEXT_BOLD_TITLE_STYLE"
+            android:textSize="14dp"
+            android:padding="5dp"
+            android:id="@+id/calendar_month_num"/>
+
+        <com.example.forusuistudy.custom.DayOfMonthView
+            android:layout_width="match_parent"
+            android:id="@+id/dayOfMonthView"
+            android:layout_height="wrap_content"/>
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.leveloper.infinitecalendar.custom.CalendarView
+        <com.example.forusuistudy.custom.CalendarView
             android:id="@+id/calendarView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <com.leveloper.infinitecalendar.custom.RectView
+        <com.example.forusuistudy.custom.RectView
             android:id="@+id/rectangleView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <TextView
-            android:id="@+id/millis"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center" />
-
     </FrameLayout>
+</LinearLayout>
 </layout>

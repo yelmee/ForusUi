@@ -1,4 +1,4 @@
-package com.example.forusuistudy
+package com.example.forusuistudy.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.example.forusuistudy.R
 import com.example.forusuistudy.databinding.FragmentSignInBinding
 
 class SignInFragment: Fragment() {
@@ -26,12 +27,14 @@ class SignInFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.tvSignInFindPw.setOnClickListener {
-            val navDirections = SignInFragmentDirections.actionSignInFragmentToFindPwFragment()
+            val navDirections =
+                SignInFragmentDirections.actionSignInFragmentToFindPwFragment()
             it.findNavController().navigate(navDirections)
         }
 
         binding.btnSingInNext.setOnClickListener{
-            val navDirections = SignInFragmentDirections.actionSignInFragmentToMainFragment()
+            val navDirections =
+                SignInFragmentDirections.actionSignInFragmentToMainFragment()
             it.findNavController().navigate(navDirections)
         }
 

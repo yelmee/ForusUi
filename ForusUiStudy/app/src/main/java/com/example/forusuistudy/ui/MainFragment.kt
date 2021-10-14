@@ -1,6 +1,5 @@
-package com.example.forusuistudy
+package com.example.forusuistudy.ui
 
-import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,11 +8,12 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
+import com.example.forusuistudy.R
+import com.example.forusuistudy.adapter.ViewPagerAdapter
 import com.example.forusuistudy.databinding.FragmentMainBinding
+import com.example.forusuistudy.dialog.PlanAddDialog
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.leveloper.infinitecalendar.CalendarFragment
-import com.leveloper.infinitecalendar.MainCalendarFragment
 
 /**
  *Created By Yelim ON 2021/10/13
@@ -50,13 +50,14 @@ class MainFragment: Fragment() {
             showDialog()
         }
 
-        val pagerAdapter = ViewPager(requireActivity())
+        val pagerAdapter = ViewPagerAdapter(requireActivity())
+
         pagerAdapter.addFragment(MainCalendarFragment())
-//        pagerAdapter.addFragment(MainCalendarFragment())
-//        pagerAdapter.addFragment(MainCalendarFragment())
+        pagerAdapter.addFragment(ListFragment())
+        pagerAdapter.addFragment(ListFragment())
+        pagerAdapter.addFragment(ListFragment())
 
         viewPager.adapter = pagerAdapter
-//        viewPager.orientation = ViewPager2.ORIENTATION_VERTICAL
 
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {

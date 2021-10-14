@@ -1,9 +1,7 @@
-package com.leveloper.infinitecalendar.custom
+package com.example.forusuistudy.custom
 
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Paint
-import android.graphics.Rect
+import android.graphics.*
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.ContextThemeWrapper
@@ -12,11 +10,11 @@ import androidx.annotation.AttrRes
 import androidx.annotation.StyleRes
 import androidx.core.content.withStyledAttributes
 import com.example.forusuistudy.R
-import com.leveloper.infinitecalendar.utils.CalendarUtils.Companion.getDateColor
-import com.leveloper.infinitecalendar.utils.CalendarUtils.Companion.isSameMonth
+import com.example.forusuistudy.utils.CalendarUtils.Companion.getDateColor
+import com.example.forusuistudy.utils.CalendarUtils.Companion.isSameMonth
 import org.joda.time.DateTime
 
-class DayItemView @JvmOverloads     constructor(
+class DayItemView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     @AttrRes private val defStyleAttr: Int = R.attr.itemViewStyle,
@@ -27,11 +25,13 @@ class DayItemView @JvmOverloads     constructor(
 
     private val bounds = Rect()
     private var paint: Paint = Paint()
+    private var paintBorder: Paint = Paint()
 
     init {
         /* Attributes */
         context.withStyledAttributes(attrs, R.styleable.CalendarView, defStyleAttr, defStyleRes) {
-            val dayTextSize = getDimensionPixelSize(R.styleable.CalendarView_dayTextSize, 0).toFloat()
+            val dayTextSize =
+                getDimensionPixelSize(R.styleable.CalendarView_dayTextSize, 0).toFloat()
 
             /* 흰색 배경에 유색 글씨 */
             paint = TextPaint().apply {
@@ -41,6 +41,14 @@ class DayItemView @JvmOverloads     constructor(
                 if (!isSameMonth(date, firstDayOfMonth)) {
                     alpha = 50
                 }
+            }
+
+            paintBorder.apply {
+                color = Color.BLACK
+                strokeWidth = 1F
+                style = Paint.Style.STROKE
+//                val color = Color.BLACK
+//                colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_OUT)
             }
         }
     }
@@ -53,9 +61,15 @@ class DayItemView @JvmOverloads     constructor(
         paint.getTextBounds(date, 0, date.length, bounds)
         canvas.drawText(
             date,
-            (width / 2 - bounds.width() / 2).toFloat() - 2,
-            (height / 2 + bounds.height() / 2).toFloat(),
+            0F + 14F,
+            bounds.height().toFloat() + 14F,
             paint
         )
+        val top = 1
+        val left = 1
+        val bottom = height
+        val right = width
+         var rect = Rect(top, left, right, bottom)
+        canvas.drawRect(rect, paintBorder)
     }
 }

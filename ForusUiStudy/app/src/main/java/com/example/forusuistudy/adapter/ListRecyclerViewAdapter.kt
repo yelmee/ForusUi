@@ -1,12 +1,15 @@
+package com.example.forusuistudy.adapter
+
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.forusuistudy.data.Plan
 import com.example.forusuistudy.databinding.ItemRcBinding
-import com.leveloper.infinitecalendar.data.Plan
 
-class ListRecyclerVIewAdapter : ListAdapter<Plan, RecyclerView.ViewHolder>(LIstDiffCallback()) {
+class ListRecyclerViewAdapter : ListAdapter<Plan, RecyclerView.ViewHolder>(LIstDiffCallback()) {
+
     inner class ListViewHolder(val binding: ItemRcBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Plan) {
@@ -23,7 +26,7 @@ class ListRecyclerVIewAdapter : ListAdapter<Plan, RecyclerView.ViewHolder>(LIstD
         )
     }
 
-    override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         (holder as ListViewHolder).bind(getItem(position))
     }
 

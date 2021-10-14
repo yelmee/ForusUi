@@ -1,20 +1,22 @@
-package com.leveloper.infinitecalendar.custom
+package com.example.forusuistudy.custom
 
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
+import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.ContextThemeWrapper
 import android.view.View
 import androidx.annotation.AttrRes
 import androidx.annotation.StyleRes
 import androidx.core.content.withStyledAttributes
+import com.example.forusuistudy.ui.CalendarFragment
 import com.example.forusuistudy.R
-import com.leveloper.infinitecalendar.CalendarFragment
-import com.leveloper.infinitecalendar.data.PlanSet
-import com.leveloper.infinitecalendar.utils.CalendarUtils
+import com.example.forusuistudy.data.PlanSet
+import com.example.forusuistudy.utils.CalendarUtils
+import com.example.forusuistudy.utils.CalendarUtils.Companion.WEEKS_PER_MONTH
 import org.joda.time.DateTimeConstants.DAYS_PER_WEEK
 import org.joda.time.format.DateTimeFormat
 
@@ -29,6 +31,7 @@ class RectChildView @JvmOverloads constructor(
 ) : View(ContextThemeWrapper(context, defStyleRes), attrs, defStyleAttr) {
     private val bounds = Rect()
     private val paint = Paint()
+    private var paintText = Paint()
 
     init {
         context.withStyledAttributes(attrs, R.styleable.RectView, defStyleAttr, defStyleRes) {
@@ -37,6 +40,13 @@ class RectChildView @JvmOverloads constructor(
             paint.apply {
                 color = Color.BLUE
                 strokeWidth = 3F
+            }
+
+            /* 흰색 배경에 유색 글씨 */
+            paintText = TextPaint().apply {
+                isAntiAlias = true
+                textSize = 25f
+                color = Color.WHITE
             }
         }
     }
@@ -50,9 +60,6 @@ class RectChildView @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        val width = (iWidth / DAYS_PER_WEEK).toFloat()
-        val height = (iHeight / CalendarUtils.WEEKS_PER_MONTH).toFloat()
-        val prevCount = CalendarFragment.prevCount
 
         if (canvas == null) return
 
@@ -69,15 +76,24 @@ class RectChildView @JvmOverloads constructor(
             startDayOfWeek = ifSunDaySetWeekNumToZero(fmt.parseDateTime(list[i].termFrom).dayOfWeek)
             endDayOfWeek = ifSunDaySetWeekNumToZero(fmt.parseDateTime(list[i].termTo).dayOfWeek)
 
-            val rectHeight = 10F
-            val rectInterval = 5F
+            val rectHeight = 50F // 사각형 간격
+            val rectInterval = 60F  // 사각형 높이
+            val d = 20  // 높이 오류줄임
             left = (startDayOfWeek) * iWidth
             right = (endDayOfWeek + 1) * iWidth
-            top =  iHeight +  ( i * rectHeight )
-            bottom =  iHeight + rectInterval + ( i * rectHeight)
+            top =  iHeight +  ( i * rectHeight ) + d
+            bottom =  iHeight + rectInterval + ( i * rectHeight )
 
             canvas.drawRect(left, top, right, bottom, paint)
+            val title = list[i].title
 
+            paintText.getTextBounds(title, 0, title.length, bounds)
+            canvas.drawText(
+                title,
+                left,
+                bottom - (bounds.height() / 2),
+                paintText
+            )
             left = 0F
             right = 0F
             top = 0F
