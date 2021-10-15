@@ -5,14 +5,26 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:orientation="vertical">
 
-        <include
-            layout="@layout/top_navi"
-            android:id="@+id/main_topNavi"/>
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_height="40dp"
+            android:minHeight="?attr/actionBarSize"
+            android:id="@+id/toolbar">
+            <TextView
+                android:layout_gravity="center"
+                android:textSize="16dp"
+                android:id="@+id/tv_topNav_loginText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="LOGO"/>
+
+        </androidx.appcompat.widget.Toolbar>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_margin="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_round_et"
@@ -112,6 +124,23 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/ll_main_icon">
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/vp_today_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tl_main_tabLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp" />
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/tv_main_today_list_title"
                 android:layout_width="wrap_content"
@@ -122,22 +151,6 @@
                 app:layout_constraintBottom_toBottomOf="@id/ll_main_icon"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="@id/ll_main_icon" />
-
-          <LinearLayout
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              app:layout_constraintTop_toBottomOf="@id/ll_main_icon"
-              android:orientation="vertical">
-              <com.google.android.material.tabs.TabLayout
-                  android:layout_width="match_parent"
-                  android:layout_height="30dp"
-                  android:id="@+id/tl_main_tabLayout"/>
-
-              <androidx.viewpager2.widget.ViewPager2
-                  android:id="@+id/vp_today_list"
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent" />
-          </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>

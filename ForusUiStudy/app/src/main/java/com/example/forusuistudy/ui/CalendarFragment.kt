@@ -29,7 +29,7 @@ class CalendarFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = DataBindingUtil.inflate<FragmentCalendarBinding>(
+         binding = DataBindingUtil.inflate<FragmentCalendarBinding>(
             inflater,
             R.layout.fragment_calendar,
             container,
@@ -48,13 +48,20 @@ class CalendarFragment : Fragment() {
         return binding.root
     }
 
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.d("jyl", "onViewCreated: start")
-
     }
 
     companion object {
+        private lateinit var binding: FragmentCalendarBinding
+
+        fun removeRectView() {
+            binding.rectangleView.removeAllViewsInLayout()
+
+        }
 
         private const val MILLIS = "MILLIS"
         var prevCount = 0

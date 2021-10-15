@@ -42,11 +42,12 @@
             android:layout_height="wrap_content">
 
             <SeekBar
+                android:background="@null"
                 android:layout_marginTop="20dp"
                 android:id="@+id/seekbar"
                 android:layout_marginRight="60dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:max="10"
                 android:progress="@{item.progress}"
                 android:progressDrawable="@drawable/seekbar_seekbar1"

@@ -15,7 +15,6 @@ import com.example.forusuistudy.ui.CalendarFragment
 import com.example.forusuistudy.R
 import com.example.forusuistudy.data.Plan
 import com.example.forusuistudy.data.PlanSet
-import com.example.forusuistudy.utils.CalendarUtils
 import com.example.forusuistudy.utils.CalendarUtils.Companion.WEEKS_PER_MONTH
 import com.example.forusuistudy.utils.CalendarUtils.Companion.addTime
 import com.example.forusuistudy.utils.CalendarUtils.Companion.getPrevOffSet
@@ -59,7 +58,7 @@ class RectView @JvmOverloads constructor(
         for (i in 0..5) {
             list.add(li)
         }
-        var data = Plan(1, "알고리즘 공부", addTime(12), addTime(14), "www.naver.com", 12, 80)
+        var data = Plan(1, "알고리즘 공부", addTime(22), addTime(24), "www.naver.com", 12, 80)
         originList.add(data)
         data = Plan(1, "안드로이드 개념 공부", addTime(11), addTime(20), "www.naver.com", 12, 80)
         originList.add(data)
@@ -68,7 +67,7 @@ class RectView @JvmOverloads constructor(
         val firstDayOfMonth = DateTime().withDayOfMonth(1)
         val prevOffSet = getPrevOffSet(firstDayOfMonth)
         val firstDayOfCalendar = firstDayOfMonth.minusDays(prevOffSet)
-        val sathurDayList = arrayListOf<String>() // 주의 마지막 요일인 토요일에 해당되는 날짜의 리스트
+        val saturDayList = arrayListOf<String>() // 주의 마지막 요일인 토요일에 해당되는 날짜의 리스트
         val sathurDayNum = "6"
 
         /**
@@ -77,7 +76,7 @@ class RectView @JvmOverloads constructor(
         for (i in 0 until allDay) {
             val curDateDayOfWeek = firstDayOfCalendar.plusDays(i).dayOfWeek().asString
             if (curDateDayOfWeek.equals(sathurDayNum)) {
-                sathurDayList.add(firstDayOfCalendar.plusDays(i).toString(fmtOut))
+                saturDayList.add(firstDayOfCalendar.plusDays(i).toString(fmtOut))
             }
         }
 
@@ -95,10 +94,10 @@ class RectView @JvmOverloads constructor(
                 val curDate =
                     fmt.parseDateTime(originList[i].termFrom).plusDays(j)
                 Log.d(TAG, "curDate: "+ curDate.toString(fmtOut))
-                Log.d(TAG, "sathurDayList: ${sathurDayList[i]}")
+                Log.d(TAG, "sathurDayList: ${saturDayList[i]}")
 
-                for (d in 0 until sathurDayList.size) {
-                    if (curDate.toString(fmtOut).equals(sathurDayList[d])) {
+                for (d in 0 until saturDayList.size) {
+                    if (curDate.toString(fmtOut).equals(saturDayList[d])) {
                         planSet = PlanSet(
                             originList[i].id,
                             originList[i].title,

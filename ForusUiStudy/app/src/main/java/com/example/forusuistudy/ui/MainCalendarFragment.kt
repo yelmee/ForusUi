@@ -10,6 +10,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.forusuistudy.R
 import com.example.forusuistudy.adapter.CalendarAdapter
 import com.example.forusuistudy.databinding.ActivityCalendarBinding
+import com.example.forusuistudy.ui.CalendarFragment.Companion.removeRectView
 
 class MainCalendarFragment : Fragment() {
 
@@ -32,6 +33,18 @@ class MainCalendarFragment : Fragment() {
         binding.calendar.adapter = calendarAdapter
         binding.calendar.orientation = ViewPager2.ORIENTATION_VERTICAL
         binding.calendar.setCurrentItem(CalendarAdapter.START_POSITION, false)
+
+        binding.calendar.apply {
+            adapter = calendarAdapter
+            orientation = ViewPager2.ORIENTATION_VERTICAL
+            setCurrentItem(CalendarAdapter.START_POSITION, false)
+            registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    super.onPageSelected(position)
+                    removeRectView()
+                }
+            })
+        }
 
         return binding.root
     }

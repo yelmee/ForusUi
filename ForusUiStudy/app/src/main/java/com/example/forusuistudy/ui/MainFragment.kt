@@ -1,12 +1,17 @@
 package com.example.forusuistudy.ui
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
 import androidx.viewpager2.widget.ViewPager2
 import com.example.forusuistudy.R
 import com.example.forusuistudy.adapter.ViewPagerAdapter
@@ -14,6 +19,7 @@ import com.example.forusuistudy.databinding.FragmentMainBinding
 import com.example.forusuistudy.dialog.PlanAddDialog
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import java.nio.file.DirectoryIteratorException
 
 /**
  *Created By Yelim ON 2021/10/13
@@ -24,6 +30,7 @@ class MainFragment: Fragment() {
     private lateinit var tabLayout: TabLayout
 
     lateinit var mContext: Context
+    @SuppressLint("RestrictedApi")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -40,14 +47,30 @@ class MainFragment: Fragment() {
         }
         viewPager = binding.vpTodayList
         tabLayout = binding.tlMainTabLayout
+        val toolbar = binding.toolbar
+
+        setHasOptionsMenu(true)
+        (activity as AppCompatActivity).setSupportActionBar(toolbar)
+        (activity as AppCompatActivity).supportActionBar?.apply {
+            setDisplayShowTitleEnabled(false)
+            setDefaultDisplayHomeAsUpEnabled(true)
+            setHomeAsUpIndicator(R.drawable.baseline_add_black_36)
+            setDisplayHomeAsUpEnabled(true)
+            setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24)
+        }
+
+
+
         return binding.root
 
     }
 
+    @SuppressLint("RestrictedApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.ivMainAddPlan.setOnClickListener {
-            showDialog()
+                val navDirections = MainFragmentDirections.actionMainFragmentToPlanAddDialog2()
+                it.findNavController().navigate(navDirections)
         }
 
         val pagerAdapter = ViewPagerAdapter(requireActivity())
@@ -59,23 +82,42 @@ class MainFragment: Fragment() {
 
         viewPager.adapter = pagerAdapter
 
-        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-            }
-        })
-
         TabLayoutMediator(tabLayout, viewPager){ tab, position ->
             tab.text = "완료"
         }.attach()
 
+        /**
+         * Toolbar 초기화
+         */
+//        val navController = Navigation.findNavController(activity?.parent!!, R.id.mainFragment)
+//        val appBarConfiguration = AppBarConfiguration.Builder(navController.graph).build()
+
+
+//        NavigationUI.setupWithNavController(
+//            toolbar, navController, appBarConfiguration
+//        )
     }
 
-    private fun showDialog() {
-        val dialog = PlanAddDialog(mContext)
-        if (dialog != null) {
-            dialog.callDialog()
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        val menuInflater = activity?.menuInflater
+        menuInflater?.inflate(R.menu.toolbar_menu, menu)
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_search -> {
+                Toast.makeText(context, "검색하기", Toast.LENGTH_LONG).show()
+                return true
+            }
+            R.id.home -> {
+                Toast.makeText(context, "뒤로가기", Toast.LENGTH_LONG).show()
+                return true
+            }
         }
-
+        return super.onOptionsItemSelected(item)
     }
+
+
 }

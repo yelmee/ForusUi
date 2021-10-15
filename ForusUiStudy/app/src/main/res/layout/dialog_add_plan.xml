@@ -1,60 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_height="wrap_content">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+ <LinearLayout
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:orientation="vertical">
+     <RelativeLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:orientation="horizontal">
 
-        <ImageView
-            style="@style/iconStyle"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/baseline_close_black_36" />
+         <ImageView
+             style="@style/iconStyle"
+             android:layout_alignParentRight="true"
+             android:src="@drawable/baseline_close_black_36" />
 
-        <TextView
-            android:id="@+id/tv_dialog_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="@string/dialog_title"
-            android:textSize="18dp"
-            android:textStyle="bold" />
+         <TextView
+             android:id="@+id/tv_dialog_title"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:padding="10dp"
+             android:text="@string/dialog_title"
+             android:textSize="18dp"
+             android:textStyle="bold" />
 
-    </RelativeLayout>
+     </RelativeLayout>
 
-    <EditText
-        android:hint="@string/dialog_hint_content"
-        android:id="@+id/et_dialog_title"
-        android:layout_margin="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+     <EditText
+         android:hint="@string/dialog_hint_content"
+         android:id="@+id/et_dialog_title"
+         android:layout_margin="5dp"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"/>
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/et_dialog_period"
-        android:layout_margin="5dp"
-        android:hint="@string/dialog_hint_period"/>
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/et_dialog_url"
-        android:hint="@string/dialog_hint_url"
-        android:layout_margin="5dp"/>
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/et_dialog_tag"
-        android:hint="@string/dialog_hint_tag"
-        android:layout_margin="5dp"/>
+     <EditText
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:id="@+id/et_dialog_period"
+         android:layout_margin="5dp"
+         android:hint="@string/dialog_hint_period"/>
+     <EditText
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:id="@+id/et_dialog_url"
+         android:hint="@string/dialog_hint_url"
+         android:layout_margin="5dp"/>
+     <EditText
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:id="@+id/et_dialog_tag"
+         android:hint="@string/dialog_hint_tag"
+         android:layout_margin="5dp"/>
 
-    <ImageView
-        android:layout_margin="30dp"
-        android:layout_width="wrap_content"
-        android:layout_gravity="center"
-        android:layout_height="wrap_content"
-        android:src="@drawable/check_on"/>
-</LinearLayout>
+     <ImageView
+         android:layout_margin="30dp"
+         android:layout_width="wrap_content"
+         android:layout_gravity="center"
+         android:layout_height="wrap_content"
+         android:src="@drawable/check_on"/>
+ </LinearLayout>
+</layout>

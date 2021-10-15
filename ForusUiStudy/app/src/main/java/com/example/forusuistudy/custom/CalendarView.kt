@@ -69,17 +69,6 @@ class CalendarView @JvmOverloads constructor(
                 firstDayOfMonth = firstDayOfMonth
             ))
         }
-//        val listDayOfMonth = listOf("일", "월","화","수","목","금","토")
-//        var index = 0
-//
-//        listDayOfMonth.forEach {
-//            addView(DayOfMonthView(
-//                context = context,
-//                day = listDayOfMonth[index]
-//            ))
-//
-//            index++
-//        }
     }
 
 

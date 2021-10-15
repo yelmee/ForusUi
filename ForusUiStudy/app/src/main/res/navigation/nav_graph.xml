@@ -44,5 +44,13 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.example.forusuistudy.ui.MainFragment"
-        android:label="MainFragment" />
+        android:label="MainFragment" >
+        <action
+            android:id="@+id/action_mainFragment_to_planAddDialog2"
+            app:destination="@id/planAddDialog2" />
+    </fragment>
+    <dialog
+        android:id="@+id/planAddDialog2"
+        android:name="com.example.forusuistudy.dialog.PlanAddDialog"
+        android:label="PlanAddDialog" />
 </navigation>

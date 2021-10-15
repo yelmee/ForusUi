@@ -1,25 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.Toolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_baseline_arrow_back_48"
-        app:layout_constraintBottom_toBottomOf="@id/tv_topNav_loginText"
-        app:layout_constraintTop_toTopOf="@id/tv_topNav_loginText"
-        app:layout_constraintLeft_toLeftOf="parent"/>
-
+    android:minHeight="?attr/actionBarSize"
+    android:background="@color/teal_700"
+    android:id="@+id/toolbar">
     <TextView
+        android:gravity="center"
         android:id="@+id/tv_topNav_loginText"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="로그인"
-        style="@style/topNavTextStyle"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        style="@style/topNavTextStyle"/>
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.appcompat.widget.Toolbar>
