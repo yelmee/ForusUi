@@ -3,23 +3,19 @@ package com.example.forusuistudy.ui
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI
 import androidx.viewpager2.widget.ViewPager2
 import com.example.forusuistudy.R
 import com.example.forusuistudy.adapter.ViewPagerAdapter
 import com.example.forusuistudy.databinding.FragmentMainBinding
-import com.example.forusuistudy.dialog.PlanAddDialog
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import java.nio.file.DirectoryIteratorException
 
 /**
  *Created By Yelim ON 2021/10/13
@@ -58,9 +54,6 @@ class MainFragment: Fragment() {
             setDisplayHomeAsUpEnabled(true)
             setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24)
         }
-
-
-
         return binding.root
 
     }
@@ -75,7 +68,7 @@ class MainFragment: Fragment() {
 
         val pagerAdapter = ViewPagerAdapter(requireActivity())
 
-        pagerAdapter.addFragment(MainCalendarFragment())
+        pagerAdapter.addFragment(CalendarFrameFragment())
         pagerAdapter.addFragment(ListFragment())
         pagerAdapter.addFragment(ListFragment())
         pagerAdapter.addFragment(ListFragment())
@@ -86,9 +79,6 @@ class MainFragment: Fragment() {
             tab.text = "완료"
         }.attach()
 
-        /**
-         * Toolbar 초기화
-         */
 //        val navController = Navigation.findNavController(activity?.parent!!, R.id.mainFragment)
 //        val appBarConfiguration = AppBarConfiguration.Builder(navController.graph).build()
 
@@ -102,6 +92,11 @@ class MainFragment: Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
         val menuInflater = activity?.menuInflater
         menuInflater?.inflate(R.menu.toolbar_menu, menu)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("jyl","onResume MainFragment")
     }
 
 

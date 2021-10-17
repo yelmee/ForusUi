@@ -12,7 +12,7 @@ import com.example.forusuistudy.adapter.CalendarAdapter
 import com.example.forusuistudy.databinding.ActivityCalendarBinding
 import com.example.forusuistudy.ui.CalendarFragment.Companion.removeRectView
 
-class MainCalendarFragment : Fragment() {
+class CalendarFrameFragment : Fragment() {
 
     private lateinit var calendarAdapter: CalendarAdapter
 

@@ -9,6 +9,6 @@ import java.util.*
 data class PlanSet(
     val id: Int,
     val title: String,
-    val termFrom: String?,
-    val termTo: String?
+    val startDate: String?,
+    val endDate: String?
 )

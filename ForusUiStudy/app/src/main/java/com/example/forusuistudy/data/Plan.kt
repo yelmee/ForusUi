@@ -1,6 +1,5 @@
 package com.example.forusuistudy.data
 
-import org.joda.time.DateTime
 
 data class Plan(
     val id: Int,

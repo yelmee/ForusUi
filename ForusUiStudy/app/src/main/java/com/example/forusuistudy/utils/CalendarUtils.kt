@@ -1,14 +1,20 @@
 package com.example.forusuistudy.utils
 
+import android.content.ContentValues
 import android.graphics.Color
 import android.util.Log
 import androidx.annotation.ColorInt
 import androidx.annotation.IntRange
+import com.example.forusuistudy.data.Plan
+import com.example.forusuistudy.data.PlanSet
+import com.example.forusuistudy.data.PlanWithRow
 import org.joda.time.DateTime
 import org.joda.time.DateTimeConstants
 import org.joda.time.LocalDateTime
 import org.joda.time.Weeks
 import org.joda.time.format.DateTimeFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class CalendarUtils {
 
@@ -16,6 +22,8 @@ class CalendarUtils {
 
         const val WEEKS_PER_MONTH = 6
         private val fmt = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss")
+        private val fmt2 = DateTimeFormat.forPattern("yyyy-MM-dd")
+        private val fmt3 = DateTimeFormat.forPattern("yyyy.MM.dd")
 
         /**
          * 선택된 날짜에 해당하는 월간 달력을 반환한다.
@@ -85,6 +93,56 @@ class CalendarUtils {
         fun addTime(day: Int): String? {
             val date = DateTime().withDayOfMonth(day).withTimeAtStartOfDay()
             return date.toString(fmt)
+        }
+
+        fun isOverlappingDate(startDate1: Date, endDate1: Date, startDate2: Date, endDate2: Date): Boolean {
+            var isOverlap1 = false
+            var isOverlap2 = false
+            if (startDate1.before(endDate2)) {
+                isOverlap1 = true
+            }
+            if (startDate2.before(endDate1)) {
+                isOverlap2 = true
+            }
+            return isOverlap1 && isOverlap2
+        }
+
+        fun changeStringToDate(stringDate: String): Date {
+           return fmt2.parseDateTime(stringDate).toDate()
+        }
+
+        fun changeLongToString(longDate: Long): String{
+            return DateTime(longDate).toString(fmt3)
+        }
+
+        fun getLogOfArrayOfArray(list: ArrayList<ArrayList<PlanWithRow>>) {
+            /**
+             * arraylist 로그찍기
+             */
+            for (i in 0 until list.size) {
+                for (j in 0 until list[i].size) {
+                    Log.d(ContentValues.TAG, "list: $i $j "+ list[i][j]+"\n")
+                }
+            }
+        }
+
+        fun getLogOfArray(list: ArrayList<PlanWithRow>) {
+            /**
+             * arraylist 로그찍기
+             */
+                for (i in 0 until list.size) {
+                    Log.d(ContentValues.TAG, "getLogOfArray: $i "+ list[i]+"\n")
+            }
+        }
+
+         fun divideStartToEnd(period: String): Pair<String, String> {
+             Log.d("jylLog", "start: ${period.substring(0,10)}")
+             Log.d("jylLog", "start: ${period.substring(11,21)}")
+
+            val start = fmt3.parseDateTime(period.substring(0,10)).toString(fmt)
+            val end = fmt3.parseDateTime(period.substring(11,21)).toString(fmt)
+            val pair = Pair(start, end)
+            return pair
         }
     }
 }

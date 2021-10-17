@@ -7,17 +7,18 @@ import android.graphics.Paint
 import android.graphics.Rect
 import android.text.TextPaint
 import android.util.AttributeSet
+import android.util.Log
 import android.view.ContextThemeWrapper
 import android.view.View
 import androidx.annotation.AttrRes
 import androidx.annotation.StyleRes
 import androidx.core.content.withStyledAttributes
-import com.example.forusuistudy.ui.CalendarFragment
 import com.example.forusuistudy.R
 import com.example.forusuistudy.data.PlanSet
-import com.example.forusuistudy.utils.CalendarUtils
-import com.example.forusuistudy.utils.CalendarUtils.Companion.WEEKS_PER_MONTH
-import org.joda.time.DateTimeConstants.DAYS_PER_WEEK
+import com.example.forusuistudy.data.PlanWithRow
+import com.example.forusuistudy.utils.CalendarUtils.Companion.changeStringToDate
+import com.example.forusuistudy.utils.CalendarUtils.Companion.getLogOfArray
+import com.example.forusuistudy.utils.CalendarUtils.Companion.isOverlappingDate
 import org.joda.time.format.DateTimeFormat
 
 class RectChildView @JvmOverloads constructor(
@@ -72,18 +73,96 @@ class RectChildView @JvmOverloads constructor(
         var startDayOfWeek = 0
         var endDayOfWeek = 0
 
+        var drawnList = arrayListOf<PlanWithRow>()
         for (i in 1 until list.size) {
-            startDayOfWeek = ifSunDaySetWeekNumToZero(fmt.parseDateTime(list[i].termFrom).dayOfWeek)
-            endDayOfWeek = ifSunDaySetWeekNumToZero(fmt.parseDateTime(list[i].termTo).dayOfWeek)
+            Log.d("jylLog", "검사: +${list.get(i)}")
+            
+            startDayOfWeek =
+                ifSunDaySetWeekNumToZero(fmt.parseDateTime(list[i].startDate).dayOfWeek)    // 시작일의 요일인덱스(0: 일요일 ~ 6: 토요일)
+            endDayOfWeek =
+                ifSunDaySetWeekNumToZero(fmt.parseDateTime(list[i].endDate).dayOfWeek)       // 마감일의 요일인덱스
 
             val rectHeight = 50F // 사각형 간격
             val rectInterval = 60F  // 사각형 높이
             val d = 20  // 높이 오류줄임
+
+            var isThisRowOverlap = true
+            var currentRowIndex = 1 // 현재 검사하고 있는 row
+
+            for (j in 0 until drawnList.size) {
+                
+                val dateStart1 = changeStringToDate(list[i].startDate!!)
+                val dateEnd1 = changeStringToDate(list[i].endDate!!)
+
+                val dateStart2 = changeStringToDate(drawnList[j].startDate!!)
+                val dateEnd2 = changeStringToDate(drawnList[j].endDate!!)
+
+
+                val isRowChanged = currentRowIndex != drawnList[j].row  // 이전 row 검사가 끝났을 때 true
+                isThisRowOverlap =
+                    isOverlappingDate(dateStart1, dateEnd1, dateStart2, dateEnd2) // date 검사
+
+                /**
+                 * 이전 row 검사가 끝났으며, overlap 된 날짜가 없을 때 이전 row의 y좌표에 일정 그림
+                 * drawnList의 그릴 row의 마지막 index에 날짜를 추가
+                 */
+                if (!isThisRowOverlap && isRowChanged
+                    || !isThisRowOverlap && drawnList.size == (j + 1)
+                ) {
+
+                    top = iHeight + (currentRowIndex * rectHeight) + d
+                    bottom = iHeight + rectInterval + (currentRowIndex * rectHeight)
+
+                    val planWithRow = PlanWithRow(
+                        list[i].id,
+                        list[i].title,
+                        list[i].startDate,
+                        list[i].endDate,
+                        currentRowIndex
+                    )
+                    drawnList.add(j + 1, planWithRow)
+                } else if (isThisRowOverlap && drawnList.size == (j + 1)) {
+                    top = iHeight + ((currentRowIndex + 1) * rectHeight) + d
+                    bottom = iHeight + rectInterval + ((currentRowIndex + 1) * rectHeight)
+
+                    val planWithRow = PlanWithRow(
+                        list[i].id,
+                        list[i].title,
+                        list[i].startDate,
+                        list[i].endDate,
+                        currentRowIndex + 1
+                    )
+                    drawnList.add(j + 1, planWithRow)
+
+                } else {
+                    Log.d("jylLog", "onDraw: ")
+                }
+                /**
+                 * 검사할 row가 변경되었을 때 currentRowIndex count를 1올려줌
+                 */
+                if (isRowChanged) {
+                    currentRowIndex++
+                }
+            }
+
+            if (drawnList.size == 0) {
+                top = iHeight + (currentRowIndex * rectHeight) + d
+                bottom = iHeight + rectInterval + (currentRowIndex * rectHeight)
+
+                val planWithRow = PlanWithRow(
+                    list[i].id,
+                    list[i].title,
+                    list[i].startDate,
+                    list[i].endDate,
+                    currentRowIndex
+                )
+                drawnList.add(planWithRow)
+            }
+
             left = (startDayOfWeek) * iWidth
             right = (endDayOfWeek + 1) * iWidth
-            top =  iHeight +  ( i * rectHeight ) + d
-            bottom =  iHeight + rectInterval + ( i * rectHeight )
 
+            getLogOfArray(drawnList)
             canvas.drawRect(left, top, right, bottom, paint)
             val title = list[i].title
 
@@ -101,6 +180,5 @@ class RectChildView @JvmOverloads constructor(
             startDayOfWeek = -1
             endDayOfWeek = -1
         }
-
     }
 }

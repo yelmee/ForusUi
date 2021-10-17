@@ -40,7 +40,6 @@ class RectView @JvmOverloads constructor(
     private val li = ArrayList<PlanSet>()
 
     private var list = ArrayList<ArrayList<PlanSet>>()
-    private var originList = ArrayList<Plan>()
     private val fmt = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss")
     private val fmtOut = DateTimeFormat.forPattern("yyyy-MM-dd")
     private var _height: Float = 0f
@@ -48,6 +47,21 @@ class RectView @JvmOverloads constructor(
     private var iWidth = 0F
     private  var planSet = PlanSet(-1, "", null, null)
 
+
+    val allDay = WEEKS_PER_MONTH * DAYS_PER_WEEK
+    val firstDayOfMonth = DateTime().withDayOfMonth(1)
+    val prevOffSet = getPrevOffSet(firstDayOfMonth)
+    val firstDayOfCalendar = firstDayOfMonth.minusDays(prevOffSet)
+    val saturDayList = arrayListOf<String>() // 주의 마지막 요일인 토요일에 해당되는 날짜의 리스트
+    val sathurDayNum = "6"
+
+    companion object{
+         var originList = ArrayList<Plan>()
+
+        fun addCalendarPlan(plan: Plan) {
+            originList.add(plan)
+        }
+    }
     init {
 //        setViewModel(data)
         context.withStyledAttributes(attrs, R.styleable.RectView, defStyleAttr, defStyleRes) {
@@ -62,14 +76,16 @@ class RectView @JvmOverloads constructor(
         originList.add(data)
         data = Plan(1, "안드로이드 개념 공부", addTime(11), addTime(20), "www.naver.com", 12, 80)
         originList.add(data)
+        data = Plan(1, "디자인 그리기", addTime(17), addTime(19), "www.naver.com", 12, 80)
+        originList.add(data)
 
-        val allDay = WEEKS_PER_MONTH * DAYS_PER_WEEK
-        val firstDayOfMonth = DateTime().withDayOfMonth(1)
-        val prevOffSet = getPrevOffSet(firstDayOfMonth)
-        val firstDayOfCalendar = firstDayOfMonth.minusDays(prevOffSet)
-        val saturDayList = arrayListOf<String>() // 주의 마지막 요일인 토요일에 해당되는 날짜의 리스트
-        val sathurDayNum = "6"
+        setSathurDayListOfThisMonth()
+        adjustListToWeekOfMonth()
 
+
+    }
+
+    private fun setSathurDayListOfThisMonth() {
         /**
          * 선택된 날짜의 월에 해당하는 토요일 일자를 리스트로 담기
          */
@@ -79,6 +95,9 @@ class RectView @JvmOverloads constructor(
                 saturDayList.add(firstDayOfCalendar.plusDays(i).toString(fmtOut))
             }
         }
+    }
+
+    private fun adjustListToWeekOfMonth() {
 
         /**
          * 일정 리스트를 주간 일정 리스트로 재편집
@@ -110,7 +129,7 @@ class RectView @JvmOverloads constructor(
 
 
                 if (j == period - 1) {
-                     planSet = PlanSet(
+                    planSet = PlanSet(
                         originList[i].id,
                         originList[i].title,
                         firstDay.toString(fmtOut),
@@ -120,7 +139,7 @@ class RectView @JvmOverloads constructor(
                 val testList = ArrayList<PlanSet>()
                 if (planSet.id != -1) {
 
-                    val index = getWeekOfMonth(fmtOut.parseDateTime(planSet.termFrom)) - 1
+                    val index = getWeekOfMonth(fmtOut.parseDateTime(planSet.startDate)) - 1
 
                     for (l in 0 until list[index].size) {
                         testList.add(list[index][l])
@@ -132,12 +151,7 @@ class RectView @JvmOverloads constructor(
                 }
             }
 
-            // arraylist 로그찍기
-            for (i in 0 until list.size) {
-                for (j in 0 until list[i].size) {
-                    Log.d(TAG, "list: $i $j "+ list[i][j]+"\n")
-                }
-            }
+
         }
     }
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -155,23 +169,33 @@ class RectView @JvmOverloads constructor(
         Log.d("jyl", "onLayout: rect $iHeight")
 
         initRect()
-        var currentWeekIndex = 1    // array의 인덱
+
+        // 몇 주차 인지에 대한 list 의 인덱스값
+        // (index 0: 1주차 ~ index 5: 6주차)
+        var currentWeekIndex = 0
+
         val prevCount = CalendarFragment.prevCount
+
+        /**
+         * 한 주차에 대한 영역
+         */
         children.forEach { view ->
 
             val topMargin = - 5
             if (currentWeekIndex >= list.size) {
                 return
             }
-            val row = list[currentWeekIndex - 1].size
 
-            val rectHeight = 240
+            Log.d("jyl", "onLayout: currentWeekIndex: $currentWeekIndex")
+            val row = list[currentWeekIndex].size   // 한주차에서 필요한 열 개수 반환
+
+            val rowHeight = 240    // 열이 늘어날 때마다 필요한 높이
 
             view.layout(
                 0,
-                ((currentWeekIndex - 2) * iHeight.toInt()) + topMargin  ,
+                ((currentWeekIndex - 1) * iHeight.toInt()) + topMargin  ,
                 width,
-                ((currentWeekIndex - 2) * iHeight.toInt()) + topMargin + (row * rectHeight)
+                ((currentWeekIndex - 1) * iHeight.toInt()) + topMargin + (row * rowHeight)
             )
             currentWeekIndex++
         }
@@ -179,8 +203,8 @@ class RectView @JvmOverloads constructor(
 
     private fun initRect() {
         var index = 0
-        Log.d(TAG, "initRect: ")
         list.forEach { _ ->
+            Log.d(TAG, "index: $index")
             var h = iHeight
             var w = iWidth
             addView(

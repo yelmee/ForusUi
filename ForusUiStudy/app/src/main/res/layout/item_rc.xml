@@ -4,50 +4,52 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="item"
             type="com.example.forusuistudy.data.Plan" />
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:background="@drawable/bg_round_et"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_round_et">
 
         <ImageView
-            android:layout_marginLeft="10dp"
+            android:id="@+id/iv_itemRc_bookMark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:src="@drawable/bookmark_on"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:id="@+id/iv_itemRc_bookMark"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:layout_margin="10dp"
+            android:id="@+id/tv_itemRc_badge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:background="@drawable/bg_round_et"
-            tools:text="Today"
             android:padding="10dp"
-            android:id="@+id/tv_itemRc_badge"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintRight_toRightOf="parent"/>
+            tools:text="Today" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:padding="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            app:layout_constraintTop_toTopOf="parent">
 
             <SeekBar
-                android:background="@null"
-                android:layout_marginTop="20dp"
                 android:id="@+id/seekbar"
-                android:layout_marginRight="60dp"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="60dp"
+                android:background="@null"
                 android:max="10"
                 android:progress="@{item.progress}"
                 android:progressDrawable="@drawable/seekbar_seekbar1"
@@ -55,43 +57,44 @@
                 android:thumbTint="#00000000"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_rcItem_period" />
+
             <TextView
+                android:id="@+id/tv_item_rc_percentage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_item_rc_percentage"
-                app:layout_constraintTop_toTopOf="@id/seekbar"
                 app:layout_constraintBottom_toBottomOf="@id/seekbar"
                 app:layout_constraintLeft_toRightOf="@id/seekbar"
-                tools:text="45%"/>
+                app:layout_constraintTop_toTopOf="@id/seekbar"
+                tools:text="45%" />
 
             <ImageView
-                android:layout_marginLeft="5dp"
+                android:id="@+id/iv_item_rc_checked"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
                 android:src="@drawable/check_on"
-                android:id="@+id/iv_item_rc_checked"
+                app:layout_constraintBottom_toBottomOf="@id/tv_item_rc_percentage"
                 app:layout_constraintLeft_toRightOf="@id/tv_item_rc_percentage"
-                app:layout_constraintTop_toTopOf="@id/tv_item_rc_percentage"
-                app:layout_constraintBottom_toBottomOf="@id/tv_item_rc_percentage"/>
+                app:layout_constraintTop_toTopOf="@id/tv_item_rc_percentage" />
 
             <TextView
                 android:id="@+id/tv_rcItem_period"
-                android:layout_width="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_height="wrap_content"
                 style="@style/TEXT_SMALL_GRAY_STYLE"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                app:end="@{item.termTo}"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_rcItem_title"
                 app:start="@{item.termFrom}"
-                app:end="@{item.termTo}"
                 tools:text="2021.06.01~2021.06.22" />
 
             <TextView
-                android:layout_marginLeft="20dp"
                 android:id="@+id/tv_rcItem_title"
                 style="@style/TEXT_BOLD_TITLE_STYLE"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
                 android:text="@{item.title}"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
