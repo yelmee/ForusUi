@@ -9,13 +9,17 @@ import android.text.TextPaint
 import android.util.AttributeSet
 import android.util.Log
 import android.view.ContextThemeWrapper
+import android.view.MotionEvent
 import android.view.View
 import androidx.annotation.AttrRes
 import androidx.annotation.StyleRes
 import androidx.core.content.withStyledAttributes
+import com.example.forusuistudy.OnDismissListener
 import com.example.forusuistudy.R
+import com.example.forusuistudy.data.Plan
 import com.example.forusuistudy.data.PlanSet
 import com.example.forusuistudy.data.PlanWithRow
+import com.example.forusuistudy.dialog.PlanAddDialog
 import com.example.forusuistudy.utils.CalendarUtils.Companion.changeStringToDate
 import com.example.forusuistudy.utils.CalendarUtils.Companion.getLogOfArray
 import com.example.forusuistudy.utils.CalendarUtils.Companion.isOverlappingDate
@@ -29,10 +33,27 @@ class RectChildView @JvmOverloads constructor(
     private val list: ArrayList<PlanSet>,
     private val iWidth: Float,
     private val iHeight: Float
-) : View(ContextThemeWrapper(context, defStyleRes), attrs, defStyleAttr) {
+) : View(ContextThemeWrapper(context, defStyleRes), attrs, defStyleAttr), OnDismissListener {
     private val bounds = Rect()
     private val paint = Paint()
     private var paintText = Paint()
+
+    companion object {
+        var originList = ArrayList<Plan>()
+        private var onDismissListener: ((Plan) -> Unit)? = null
+    }
+
+//    override fun onTouchEvent(event: MotionEvent?): Boolean {
+//        Log.d("islog", "onTouchEvent")
+//        invalidate()
+//
+//        return super.onTouchEvent(event)
+//    }
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+
+    }
 
     init {
         context.withStyledAttributes(attrs, R.styleable.RectView, defStyleAttr, defStyleRes) {
@@ -50,6 +71,16 @@ class RectChildView @JvmOverloads constructor(
                 color = Color.WHITE
             }
         }
+
+        PlanAddDialog.onDismissListener = onDismissListener
+        onDismissListener = { plan ->
+            Log.d("islog", "invalidate")
+            /**
+             *     RectView.originList.add(plan)
+             *     postInvalidate()
+             */
+            invalidate()
+        }
     }
 
     private fun ifSunDaySetWeekNumToZero(week: Int): Int {
@@ -62,6 +93,7 @@ class RectChildView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
 
+        Log.d("islog", "onDraw")
         if (canvas == null) return
 
         val fmt = DateTimeFormat.forPattern("yyyy-MM-dd")
@@ -75,8 +107,7 @@ class RectChildView @JvmOverloads constructor(
 
         var drawnList = arrayListOf<PlanWithRow>()
         for (i in 1 until list.size) {
-            Log.d("jylLog", "검사: +${list.get(i)}")
-            
+
             startDayOfWeek =
                 ifSunDaySetWeekNumToZero(fmt.parseDateTime(list[i].startDate).dayOfWeek)    // 시작일의 요일인덱스(0: 일요일 ~ 6: 토요일)
             endDayOfWeek =
@@ -90,7 +121,7 @@ class RectChildView @JvmOverloads constructor(
             var currentRowIndex = 1 // 현재 검사하고 있는 row
 
             for (j in 0 until drawnList.size) {
-                
+
                 val dateStart1 = changeStringToDate(list[i].startDate!!)
                 val dateEnd1 = changeStringToDate(list[i].endDate!!)
 
@@ -135,7 +166,6 @@ class RectChildView @JvmOverloads constructor(
                     drawnList.add(j + 1, planWithRow)
 
                 } else {
-                    Log.d("jylLog", "onDraw: ")
                 }
                 /**
                  * 검사할 row가 변경되었을 때 currentRowIndex count를 1올려줌
@@ -180,5 +210,9 @@ class RectChildView @JvmOverloads constructor(
             startDayOfWeek = -1
             endDayOfWeek = -1
         }
+    }
+
+    override fun setInvoke() {
+        invalidate()
     }
 }

@@ -44,7 +44,6 @@ class CalendarView @JvmOverloads constructor(
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
         val iWidth = (width / DAYS_PER_WEEK).toFloat()
         val iHeight = (height / WEEKS_PER_MONTH).toFloat()
-        Log.d("jyl", "onLayout: calendar $iHeight")
         var index = 0
         children.forEach { view ->
             val left = (index % DAYS_PER_WEEK) * iWidth

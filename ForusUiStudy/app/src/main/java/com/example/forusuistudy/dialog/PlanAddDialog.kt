@@ -2,6 +2,7 @@ package com.example.forusuistudy.dialog
 
 import android.app.Dialog
 import android.content.Context
+import android.content.DialogInterface
 import android.database.DatabaseUtils
 import android.os.Build
 import android.os.Bundle
@@ -12,10 +13,9 @@ import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import com.example.forusuistudy.R
-import com.example.forusuistudy.custom.RectView
-import com.example.forusuistudy.custom.RectView.Companion.addCalendarPlan
 import com.example.forusuistudy.data.Plan
 import com.example.forusuistudy.databinding.DialogAddPlanBinding
+import com.example.forusuistudy.ui.CalendarFragment
 import com.example.forusuistudy.utils.CalendarUtils.Companion.changeLongToString
 import com.example.forusuistudy.utils.CalendarUtils.Companion.divideStartToEnd
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -26,10 +26,17 @@ import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClic
  */
 class PlanAddDialog: DialogFragment() {
     private lateinit var binding: DialogAddPlanBinding
+    private var dateRangePicker = MaterialDatePicker.Builder.dateRangePicker()
+        .setTitleText("Select dates")
+        .build()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        isCancelable = false
+        //isCancelable = false
+    }
+
+    companion object{
+        var onDismissListener: ((Plan) -> Unit)? = null
     }
 
     override fun onCreateView(
@@ -85,10 +92,6 @@ class PlanAddDialog: DialogFragment() {
     }
 
     private fun setDateRangePicker() {
-        val dateRangePicker =
-            MaterialDatePicker.Builder.dateRangePicker()
-                .setTitleText("Select dates")
-                .build()
 
         dateRangePicker.show(activity?.supportFragmentManager!!, "tag")
 
@@ -109,6 +112,9 @@ class PlanAddDialog: DialogFragment() {
         val url = binding.etDialogUrl.text.toString()
 //        val tag= binding.etDialogTag.text
         val plan = Plan(1, title, divideStartToEnd(period).first, divideStartToEnd(period).second, url, 123, 50)
-        addCalendarPlan(plan)
+//        addCalendarPlan(plan)
+
+        onDismissListener?.invoke(plan)
+        dialog?.dismiss()
     }
 }

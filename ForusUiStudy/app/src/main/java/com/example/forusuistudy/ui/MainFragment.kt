@@ -2,6 +2,7 @@ package com.example.forusuistudy.ui
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -20,7 +21,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 /**
  *Created By Yelim ON 2021/10/13
  */
-class MainFragment: Fragment() {
+class MainFragment: Fragment(), DialogInterface.OnDismissListener {
     private lateinit var binding: FragmentMainBinding
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: TabLayout
@@ -71,21 +72,12 @@ class MainFragment: Fragment() {
         pagerAdapter.addFragment(CalendarFrameFragment())
         pagerAdapter.addFragment(ListFragment())
         pagerAdapter.addFragment(ListFragment())
-        pagerAdapter.addFragment(ListFragment())
 
         viewPager.adapter = pagerAdapter
 
         TabLayoutMediator(tabLayout, viewPager){ tab, position ->
             tab.text = "완료"
         }.attach()
-
-//        val navController = Navigation.findNavController(activity?.parent!!, R.id.mainFragment)
-//        val appBarConfiguration = AppBarConfiguration.Builder(navController.graph).build()
-
-
-//        NavigationUI.setupWithNavController(
-//            toolbar, navController, appBarConfiguration
-//        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -96,7 +88,7 @@ class MainFragment: Fragment() {
 
     override fun onResume() {
         super.onResume()
-        Log.d("jyl","onResume MainFragment")
+        Log.d("lifeCycle","onResume MainFragment")
     }
 
 
@@ -112,6 +104,10 @@ class MainFragment: Fragment() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onDismiss(dialog: DialogInterface?) {
+        Log.d("TAG", "onDismiss")
     }
 
 

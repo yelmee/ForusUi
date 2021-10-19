@@ -83,8 +83,6 @@ class CalendarUtils {
 
         fun getWeekOfMonth(date: DateTime): Int {
             val totalDay = DateTimeConstants.DAYS_PER_WEEK * WEEKS_PER_MONTH
-            Log.d("jyl", "minusDays: "+date.withDayOfMonth(1).minusDays(getPrevOffSet(date.withDayOfMonth(1))))
-            Log.d("jyl", "plusDays: "+(date))
             return Weeks.weeksBetween(
                 date.withDayOfMonth(1).minusDays(getPrevOffSet(date.withDayOfMonth(1))),
                 date).weeks + 1

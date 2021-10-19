@@ -16,6 +16,7 @@ import org.joda.time.DateTime
 class CalendarFragment : Fragment() {
 
     private var millis: Long = 0L
+    val onDismissListener: ((List<String>) -> Unit)? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,15 +37,11 @@ class CalendarFragment : Fragment() {
             false
         )
 
-        Log.d("jyl", "onCreateView: start")
         binding.calendarMonthNum.text = DateTime(millis).toString("yyyy.MM")
         binding.calendarView.initCalendar(DateTime(millis), getMonthList(DateTime(millis)).first)
         binding.dayOfMonthView.initCalendar()
         prevCount = getMonthList(DateTime(millis)).second
 
-        Log.d("jyl","week:"+getWeekOfMonth(DateTime().withDayOfMonth(14)))
-
-//        view.rectangleView.initRect()
         return binding.root
     }
 
@@ -52,12 +49,10 @@ class CalendarFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d("jyl", "onViewCreated")
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d("jyl", "onResume")
     }
 
     companion object {
@@ -65,7 +60,6 @@ class CalendarFragment : Fragment() {
 
         fun removeRectView() {
             binding.rectangleView.removeAllViewsInLayout()
-
         }
 
         private const val MILLIS = "MILLIS"

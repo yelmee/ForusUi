@@ -52,7 +52,6 @@ class DayOfMonthView @JvmOverloads constructor(
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
         val iWidth = (width / DateTimeConstants.DAYS_PER_WEEK).toFloat()
         val iHeight = (height).toFloat()
-        Log.d("jyl", "onLayout: calendar $iHeight")
         var index = 0
         children.forEach { view ->
             val left = (index % DateTimeConstants.DAYS_PER_WEEK) * iWidth
