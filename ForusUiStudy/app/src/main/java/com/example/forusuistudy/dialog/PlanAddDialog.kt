@@ -16,6 +16,7 @@ import com.example.forusuistudy.R
 import com.example.forusuistudy.data.Plan
 import com.example.forusuistudy.databinding.DialogAddPlanBinding
 import com.example.forusuistudy.ui.CalendarFragment
+import com.example.forusuistudy.utils.CalendarUtils.Companion.addTime
 import com.example.forusuistudy.utils.CalendarUtils.Companion.changeLongToString
 import com.example.forusuistudy.utils.CalendarUtils.Companion.divideStartToEnd
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -98,8 +99,6 @@ class PlanAddDialog: DialogFragment() {
         dateRangePicker.addOnPositiveButtonClickListener{ selection ->
             val startDate = selection.first
             val endDate = selection.second
-            
-            Log.d("jylLog", "startDate: +$startDate, $endDate")
 
             binding.etDialogPeriod.text = changeLongToString(startDate)+"~"+ changeLongToString(endDate)
         }
@@ -107,12 +106,13 @@ class PlanAddDialog: DialogFragment() {
 
 
     private fun addPlan() {
-        val title = binding.etDialogTitle.text.toString()
-        val period = binding.etDialogPeriod.text.toString()
-        val url = binding.etDialogUrl.text.toString()
+//        val title = binding.etDialogTitle.text.toString()
+//        val period = binding.etDialogPeriod.text.toString()
+//        val url = binding.etDialogUrl.text.toString()
 //        val tag= binding.etDialogTag.text
-        val plan = Plan(1, title, divideStartToEnd(period).first, divideStartToEnd(period).second, url, 123, 50)
+//        val plan = Plan(1, title, divideStartToEnd(period).first, divideStartToEnd(period).second, url, 123, 50)
 //        addCalendarPlan(plan)
+        val plan = Plan(1, "즈블되", addTime(1), addTime(3), "url", 123, 50)
 
         onDismissListener?.invoke(plan)
         dialog?.dismiss()

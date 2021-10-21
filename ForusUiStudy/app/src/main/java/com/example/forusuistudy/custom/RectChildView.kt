@@ -30,32 +30,25 @@ class RectChildView @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     @AttrRes defStyleAttr: Int = R.attr.rectViewStyle,
     @StyleRes defStyleRes: Int = R.style.Rect_rectShape,
-    private val list: ArrayList<PlanSet>,
+    private val lili: ArrayList<PlanSet>,
     private val iWidth: Float,
-    private val iHeight: Float
-) : View(ContextThemeWrapper(context, defStyleRes), attrs, defStyleAttr), OnDismissListener {
+    private val iHeight: Float,
+    private val index: Int
+) : View(ContextThemeWrapper(context, defStyleRes), attrs, defStyleAttr) {
     private val bounds = Rect()
     private val paint = Paint()
     private var paintText = Paint()
 
-    companion object {
-        var originList = ArrayList<Plan>()
-        private var onDismissListener: ((Plan) -> Unit)? = null
-    }
-
-//    override fun onTouchEvent(event: MotionEvent?): Boolean {
-//        Log.d("islog", "onTouchEvent")
-//        invalidate()
-//
-//        return super.onTouchEvent(event)
-//    }
-
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-
-    }
 
     init {
+//        setWillNotDraw(false)
+        invalidate()
+        requestLayout()
+//
+//        Log.d("jyl", "RectChildView init")
+//        Log.d("jyl", "RectChildView list index 0: ${lili}")
+//        Log.d("jyl", "RectChildView list index: ${index}")
+
         context.withStyledAttributes(attrs, R.styleable.RectView, defStyleAttr, defStyleRes) {
             val planRectSize = getString(R.styleable.RectView_termFrom)
 
@@ -71,29 +64,17 @@ class RectChildView @JvmOverloads constructor(
                 color = Color.WHITE
             }
         }
-
-        PlanAddDialog.onDismissListener = onDismissListener
-        onDismissListener = { plan ->
-            Log.d("islog", "invalidate")
-            /**
-             *     RectView.originList.add(plan)
-             *     postInvalidate()
-             */
-            invalidate()
-        }
     }
 
-    private fun ifSunDaySetWeekNumToZero(week: Int): Int {
-        if (week == 7) {
-            return 0
-        }
-        return week
-    }
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
+        var list = lili
 
-        Log.d("islog", "onDraw")
+        Log.d("jyl", "RectChildView onDraw")
+        Log.d("jyl", "RectChildView list : ${lili}")
+        Log.d("jyl", "RectChildView list index: ${index}")
+
         if (canvas == null) return
 
         val fmt = DateTimeFormat.forPattern("yyyy-MM-dd")
@@ -192,8 +173,10 @@ class RectChildView @JvmOverloads constructor(
             left = (startDayOfWeek) * iWidth
             right = (endDayOfWeek + 1) * iWidth
 
-            getLogOfArray(drawnList)
-            canvas.drawRect(left, top, right, bottom, paint)
+//            getLogOfArray(drawnList)
+            Log.d("jyl", "$this: drawRect")
+//            canvas.drawRect(left, top, right, bottom, paint)
+            canvas.drawRect(0F, 0F, 100F, 100F, paint)
             val title = list[i].title
 
             paintText.getTextBounds(title, 0, title.length, bounds)
@@ -212,7 +195,11 @@ class RectChildView @JvmOverloads constructor(
         }
     }
 
-    override fun setInvoke() {
-        invalidate()
+
+    private fun ifSunDaySetWeekNumToZero(week: Int): Int {
+        if (week == 7) {
+            return 0
+        }
+        return week
     }
 }

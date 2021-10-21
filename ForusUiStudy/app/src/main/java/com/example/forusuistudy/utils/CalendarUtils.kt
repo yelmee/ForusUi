@@ -134,8 +134,6 @@ class CalendarUtils {
         }
 
          fun divideStartToEnd(period: String): Pair<String, String> {
-             Log.d("jylLog", "start: ${period.substring(0,10)}")
-             Log.d("jylLog", "start: ${period.substring(11,21)}")
 
             val start = fmt3.parseDateTime(period.substring(0,10)).toString(fmt)
             val end = fmt3.parseDateTime(period.substring(11,21)).toString(fmt)
