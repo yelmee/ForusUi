@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="mainColor">#6395C3</color>
     <color name="transparent">#00000000</color>
+    <color name="calendarYellow">#FF9E74</color>
 </resources>

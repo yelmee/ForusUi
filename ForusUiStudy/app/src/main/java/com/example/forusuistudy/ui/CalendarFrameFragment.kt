@@ -1,6 +1,7 @@
 package com.example.forusuistudy.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,6 +42,7 @@ class CalendarFrameFragment : Fragment() {
             registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
+                    Log.d("jyl", "${this.javaClass.name}: onPageSelected")
                     removeRectView()
                 }
             })

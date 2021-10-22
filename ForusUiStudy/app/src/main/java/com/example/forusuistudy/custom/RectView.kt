@@ -1,6 +1,8 @@
 package com.example.forusuistudy.custom
 
 import android.content.Context
+import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.util.Log
@@ -32,6 +34,7 @@ class RectView @JvmOverloads constructor(
     @AttrRes defStyleAttr: Int = R.attr.rectViewStyle,
     @StyleRes defStyleRes: Int = R.style.Rect_RectViewStyle
 ) : FrameLayout(ContextThemeWrapper(context, defStyleRes), attrs, defStyleAttr) {
+    var index = 3
 
     //    private val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 //    private val binding: FragmentCalendarBinding = FragmentCalendarBinding.inflate(inflater, this, false)
@@ -57,7 +60,9 @@ class RectView @JvmOverloads constructor(
 
     companion object {
         var originList = ArrayList<Plan>()
-        private var onDismissListener: ((Plan) -> Unit)? = null
+        var onDismissListener: ((Plan) -> Unit)? = null
+        var onDrawListener: (() -> Unit)? = null
+
     }
 
     init {
@@ -67,12 +72,18 @@ class RectView @JvmOverloads constructor(
         nullList.add(nullPlan)
         PlanAddDialog.onDismissListener = onDismissListener
         onDismissListener = { plan ->
-            Log.d("jyl", "$this: onDismissListener")
+            Log.d("jyl", "${this.javaClass.name}: onDismissListener")
 
             originList.add(plan)
             initEditList()
-            editListToWeekSchedule()
-            requestLayout()
+            editToWeekSchedule()
+            removeAllViews()
+
+//            removeAllViewsInLayout()
+//            invalidate()
+//            requestLayout()
+
+//            onDrawListener?.invoke()
         }
 
         setWillNotDraw(false)
@@ -82,33 +93,27 @@ class RectView @JvmOverloads constructor(
 
         initOriginList()
         initEditList()
-        setSaturdayListOfThisMonth()
-        editListToWeekSchedule()
+       setSaturdayList()
+        editToWeekSchedule()
     }
 
     private fun initOriginList() {
         originList = ArrayList<Plan>()
-        var data = Plan(1, "알고리즘 공부", addTime(10), addTime(11), "www.naver.com", 12, 80)
+        var data = Plan(1, "알고리즘 공부", addTime(5), addTime(7), "www.naver.com", 12, 80)
         originList.add(data)
 
-//        data = Plan(1, "안드로이드 개념 공부", addTime(11), addTime(20), "www.naver.com", 12, 80)
-//        originList.add(data)
-//        data = Plan(1, "디자인 그리기", addTime(17), addTime(19), "www.naver.com", 12, 80)
-//        originList.add(data)
-
+        data = Plan(1, "디자인 그리기", addTime(22), addTime(23), "www.naver.com", 12, 80)
+        originList.add(data)
     }
 
     private fun initEditList() {
-        /**
-         * 
-         */
         editList = ArrayList<ArrayList<PlanSet>>()
         for (i in 0..5) {
             editList.add(nullList)
         }
     }
 
-    private fun setSaturdayListOfThisMonth() {
+    private fun setSaturdayList() {
         /**
          * 선택된 날짜의 월에 해당하는 토요일 일자를 리스트로 담기
          */
@@ -120,12 +125,12 @@ class RectView @JvmOverloads constructor(
         }
     }
 
-    private fun editListToWeekSchedule() {
+    private fun editToWeekSchedule() {
 
         /**
          * 일정 리스트를 주간 일정 리스트로 재편집
          */
-        for (i in 0 until originList.size) {
+        loop@ for (i in 0 until originList.size) {
             val period = Days.daysBetween(
                 fmt.parseDateTime(originList[i].termFrom).toLocalDate(),
                 fmt.parseDateTime(originList[i].termTo).toLocalDate()
@@ -148,6 +153,8 @@ class RectView @JvmOverloads constructor(
                             curDate.toString(fmtOut)
                         )
                         firstDay = curDate.plusDays(1)
+                        setEditList(planSet)
+                        continue@loop
                     }
                 }
 
@@ -161,35 +168,38 @@ class RectView @JvmOverloads constructor(
                         firstDay.toString(fmtOut),
                         curDate.toString(fmtOut)
                     )
-                }
-
-                /**
-                 * childView에 하나의 rectangle로 잡을 리스트를 add 시킨다
-                 */
-                val testList = ArrayList<PlanSet>()
-                if (planSet.id != -1) {
-
-                    val index  // add 시킬 일정이 몇주차에 추가될지에 대한 editList index
-                    = getWeekOfMonth(fmtOut.parseDateTime(planSet.startDate)) - 1
-
-                    /**
-                     * editList는 2차배열로 되어있는데 재편집을 위해서
-                     * editList[index]에 있는 배열들을 다시 testList에 추가한 후
-                     * 마지막 추가시킬 planSet 을 추가한다
-                     *
-                     * testList = editList[index] + planSet
-                     * editList[index] = testList
-                     */
-                    for (l in 0 until editList[index].size) {
-                        testList.add(editList[index][l])
-                    }
-
-                    testList.add(planSet)
-                    editList[index] = testList
-                    planSet = PlanSet(-1, "", null, null)
+                    setEditList(planSet)
+                    continue@loop
                 }
             }
-//            Log.d("jyl", "$this: list: $editList")
+        }
+    }
+
+    private fun setEditList(plan: PlanSet) {
+        /**
+         * childView에 하나의 rectangle로 잡을 리스트를 add 시킨다
+         */
+        val testList = ArrayList<PlanSet>()
+        if (plan.id != -1) {
+
+            val index  // add 시킬 일정이 몇주차에 추가될지에 대한 editList index
+                    = getWeekOfMonth(fmtOut.parseDateTime(plan.startDate)) - 1
+
+            /**
+             * editList는 2차배열로 되어있는데 재편집을 위해서
+             * editList[index]에 있는 배열들을 다시 testList에 추가한 후
+             * 마지막 추가시킬 planSet 을 추가한다
+             *
+             * testList = editList[index] + planSet
+             * editList[index] = testList
+             */
+            for (l in 0 until editList[index].size) {
+                testList.add(editList[index][l])
+            }
+
+            testList.add(plan)
+            editList[index] = testList
+            planSet = PlanSet(-1, "", null, null)
         }
     }
 
@@ -220,18 +230,17 @@ class RectView @JvmOverloads constructor(
          */
         children.forEach { view ->
 
-            invalidate()
-            requestLayout()
+//            invalidate()
+//            requestLayout()
             val topMargin = -5
             if (currentWeekIndex >= editList.size) {
                 return
             }
 
-//            val row = editList[currentWeekIndex].size   // 한주차에서 필요한 열 개수 반환
-            val row = 2   // 한주차에서 필요한 열 개수 반환
+            val row = editList[currentWeekIndex].size   // 한주차에서 필요한 열 개수 반환
+//            val row = 2   // 한주차에서 필요한 열 개수 반환
 
             val rowHeight = 240    // 열이 늘어날 때마다 필요한 높이
-
             view.layout(
                 0,
                 ((currentWeekIndex - 1) * iHeight.toInt()) + topMargin,

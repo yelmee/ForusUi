@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.appcompat.widget.Toolbar
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+android:layout_width="match_parent"
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_marginTop="10dp"
+android:layout_height="40dp"
+android:minHeight="?attr/actionBarSize"
+android:id="@+id/toolbar">
+<TextView
+    android:layout_gravity="center"
+    android:textSize="16dp"
+    android:id="@+id/tv_topNav_loginText"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:minHeight="?attr/actionBarSize"
-    android:background="@color/teal_700"
-    android:id="@+id/toolbar">
-    <TextView
-        android:gravity="center"
-        android:id="@+id/tv_topNav_loginText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="로그인"
-        style="@style/topNavTextStyle"/>
+    android:text="LOGO"/>
 
 </androidx.appcompat.widget.Toolbar>

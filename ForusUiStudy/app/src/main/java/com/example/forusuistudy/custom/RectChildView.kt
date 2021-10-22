@@ -38,22 +38,25 @@ class RectChildView @JvmOverloads constructor(
     private val bounds = Rect()
     private val paint = Paint()
     private var paintText = Paint()
+    var indexx = 1
 
-
+    companion object {
+        private var onDrawListener: (() -> Unit)? = null
+    }
     init {
-//        setWillNotDraw(false)
-        invalidate()
-        requestLayout()
-//
-//        Log.d("jyl", "RectChildView init")
-//        Log.d("jyl", "RectChildView list index 0: ${lili}")
-//        Log.d("jyl", "RectChildView list index: ${index}")
+        RectView.onDrawListener = onDrawListener
+        onDrawListener = {
+            Log.d("jyl", "${this.javaClass.name}: onDismissListener")
+            indexx = 1000
+            invalidate()
+            requestLayout()
+        }
 
         context.withStyledAttributes(attrs, R.styleable.RectView, defStyleAttr, defStyleRes) {
             val planRectSize = getString(R.styleable.RectView_termFrom)
 
             paint.apply {
-                color = Color.BLUE
+                color = context.resources.getColor(R.color.calendarYellow)
                 strokeWidth = 3F
             }
 
@@ -69,11 +72,11 @@ class RectChildView @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        var list = lili
 
-        Log.d("jyl", "RectChildView onDraw")
-        Log.d("jyl", "RectChildView list : ${lili}")
-        Log.d("jyl", "RectChildView list index: ${index}")
+        var list = lili
+        indexx += 1
+
+        Log.d("jyl", "RectChildView: ${index} ${lili}")
 
         if (canvas == null) return
 
@@ -101,6 +104,9 @@ class RectChildView @JvmOverloads constructor(
             var isThisRowOverlap = true
             var currentRowIndex = 1 // 현재 검사하고 있는 row
 
+            /**
+             * 이미 그려진 일정과 겹치지 않게 검사한다
+             */
             for (j in 0 until drawnList.size) {
 
                 val dateStart1 = changeStringToDate(list[i].startDate!!)
@@ -116,7 +122,7 @@ class RectChildView @JvmOverloads constructor(
 
                 /**
                  * 이전 row 검사가 끝났으며, overlap 된 날짜가 없을 때 이전 row의 y좌표에 일정 그림
-                 * drawnList의 그릴 row의 마지막 index에 날짜를 추가
+                 * drawnList row의 마지막 index에 날짜를 추가
                  */
                 if (!isThisRowOverlap && isRowChanged
                     || !isThisRowOverlap && drawnList.size == (j + 1)
@@ -147,6 +153,7 @@ class RectChildView @JvmOverloads constructor(
                     drawnList.add(j + 1, planWithRow)
 
                 } else {
+
                 }
                 /**
                  * 검사할 row가 변경되었을 때 currentRowIndex count를 1올려줌
@@ -175,8 +182,9 @@ class RectChildView @JvmOverloads constructor(
 
 //            getLogOfArray(drawnList)
             Log.d("jyl", "$this: drawRect")
-//            canvas.drawRect(left, top, right, bottom, paint)
-            canvas.drawRect(0F, 0F, 100F, 100F, paint)
+
+            canvas.drawRect(left, top, right, bottom, paint)
+//            canvas.drawRect(0F, 0F, 100F, 100F, paint)
             val title = list[i].title
 
             paintText.getTextBounds(title, 0, title.length, bounds)
@@ -194,7 +202,6 @@ class RectChildView @JvmOverloads constructor(
             endDayOfWeek = -1
         }
     }
-
 
     private fun ifSunDaySetWeekNumToZero(week: Int): Int {
         if (week == 7) {

@@ -112,7 +112,7 @@ class PlanAddDialog: DialogFragment() {
 //        val tag= binding.etDialogTag.text
 //        val plan = Plan(1, title, divideStartToEnd(period).first, divideStartToEnd(period).second, url, 123, 50)
 //        addCalendarPlan(plan)
-        val plan = Plan(1, "즈블되", addTime(1), addTime(3), "url", 123, 50)
+        val plan = Plan(1, "새로 생긴 일정인데 절대 표시안되니까 알아서하게", addTime(24), addTime(25), "url", 123, 50)
 
         onDismissListener?.invoke(plan)
         dialog?.dismiss()

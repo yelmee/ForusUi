@@ -113,6 +113,10 @@ class CalendarUtils {
             return DateTime(longDate).toString(fmt3)
         }
 
+        fun changeStringFormat(stringDate: String): String {
+            return fmt.parseDateTime(stringDate).toString(fmt2)
+        }
+
         fun getLogOfArrayOfArray(list: ArrayList<ArrayList<PlanWithRow>>) {
             /**
              * arraylist 로그찍기

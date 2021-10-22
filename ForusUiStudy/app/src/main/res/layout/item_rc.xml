@@ -17,9 +17,10 @@
 
         <ImageView
             android:id="@+id/iv_itemRc_bookMark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="2dp"
             android:src="@drawable/bookmark_on"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -33,12 +34,13 @@
             android:padding="10dp"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Today" />
+            android:text="Today" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="20dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -50,7 +52,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="60dp"
                 android:background="@null"
-                android:max="10"
+                android:max="100"
                 android:progress="@{item.progress}"
                 android:progressDrawable="@drawable/seekbar_seekbar1"
                 android:thumb="@color/transparent"
@@ -59,6 +61,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_rcItem_period" />
 
             <TextView
+                android:text="45%"
                 android:id="@+id/tv_item_rc_percentage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -72,7 +75,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:src="@drawable/check_on"
+                android:src="@drawable/ic_baseline_check_circle_24"
                 app:layout_constraintBottom_toBottomOf="@id/tv_item_rc_percentage"
                 app:layout_constraintLeft_toRightOf="@id/tv_item_rc_percentage"
                 app:layout_constraintTop_toTopOf="@id/tv_item_rc_percentage" />
@@ -82,7 +85,7 @@
                 style="@style/TEXT_SMALL_GRAY_STYLE"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="40dp"
                 app:end="@{item.termTo}"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_rcItem_title"
@@ -94,7 +97,7 @@
                 style="@style/TEXT_BOLD_TITLE_STYLE"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="40dp"
                 android:text="@{item.title}"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -104,7 +107,8 @@
                 android:id="@+id/tv_rcItem_url"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="40dp"
                 android:text="@{item.url}"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/seekbar"
