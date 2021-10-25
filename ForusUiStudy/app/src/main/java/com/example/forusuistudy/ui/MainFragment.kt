@@ -43,7 +43,7 @@ class MainFragment: Fragment(), DialogInterface.OnDismissListener {
             mContext = container.context
         }
         viewPager = binding.vpTodayList
-        tabLayout = binding.tlMainTabLayout
+//        tabLayout = binding.tlMainTabLayout
         val toolbar = binding.toolbar
 
         setHasOptionsMenu(true)
@@ -75,9 +75,9 @@ class MainFragment: Fragment(), DialogInterface.OnDismissListener {
 
         viewPager.adapter = pagerAdapter
 
-        TabLayoutMediator(tabLayout, viewPager){ tab, position ->
-            tab.text = "완료"
-        }.attach()
+//        TabLayoutMediator(tabLayout, viewPager){ tab, position ->
+//            tab.text = "완료"
+//        }.attach()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

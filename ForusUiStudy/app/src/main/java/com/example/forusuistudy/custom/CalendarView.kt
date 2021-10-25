@@ -10,6 +10,7 @@ import androidx.annotation.StyleRes
 import androidx.core.content.withStyledAttributes
 import androidx.core.view.children
 import com.example.forusuistudy.R
+import com.example.forusuistudy.dialog.PlanAddDialog
 import com.example.forusuistudy.utils.CalendarUtils.Companion.WEEKS_PER_MONTH
 import org.joda.time.DateTime
 import org.joda.time.DateTimeConstants.DAYS_PER_WEEK
@@ -23,8 +24,14 @@ class CalendarView @JvmOverloads constructor(
 ) : ViewGroup(ContextThemeWrapper(context, defStyleRes), attrs, defStyleAttr) {
 
     private var _height: Float = 0f
+    var onReDrawListener: (() -> Unit)? = null
 
     init {
+        PlanAddDialog.onReDrawListener = onReDrawListener
+        onReDrawListener = {
+            Log.d("jyl", "${this.javaClass.classes}: onReDrawListener")
+            removeAllViews()
+        }
         context.withStyledAttributes(attrs, R.styleable.CalendarView, defStyleAttr, defStyleRes) {
             _height = getDimension(R.styleable.CalendarView_dayHeight, 0f)
         }

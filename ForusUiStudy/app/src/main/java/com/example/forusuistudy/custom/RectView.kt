@@ -75,15 +75,18 @@ class RectView @JvmOverloads constructor(
             Log.d("jyl", "${this.javaClass.name}: onDismissListener")
 
             originList.add(plan)
+
             initEditList()
             editToWeekSchedule()
+
             removeAllViews()
 
-//            removeAllViewsInLayout()
-//            invalidate()
-//            requestLayout()
+            /**
+             *  removeAllViewsInLayout()
+             *  invalidate()
+             *  requestLayout()
+             */
 
-//            onDrawListener?.invoke()
         }
 
         setWillNotDraw(false)

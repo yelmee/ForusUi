@@ -14,7 +14,6 @@ import android.view.View
 import androidx.annotation.AttrRes
 import androidx.annotation.StyleRes
 import androidx.core.content.withStyledAttributes
-import com.example.forusuistudy.OnDismissListener
 import com.example.forusuistudy.R
 import com.example.forusuistudy.data.Plan
 import com.example.forusuistudy.data.PlanSet
@@ -46,7 +45,6 @@ class RectChildView @JvmOverloads constructor(
     init {
         RectView.onDrawListener = onDrawListener
         onDrawListener = {
-            Log.d("jyl", "${this.javaClass.name}: onDismissListener")
             indexx = 1000
             invalidate()
             requestLayout()

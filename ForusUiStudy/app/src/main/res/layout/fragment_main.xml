@@ -138,10 +138,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 
-                <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/tl_main_tabLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp" />
+<!--                <com.google.android.material.tabs.TabLayout-->
+<!--                    android:id="@+id/tl_main_tabLayout"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="30dp" />-->
             </LinearLayout>
 
             <TextView

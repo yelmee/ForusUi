@@ -38,6 +38,7 @@ class PlanAddDialog: DialogFragment() {
 
     companion object{
         var onDismissListener: ((Plan) -> Unit)? = null
+        var onReDrawListener: (() -> Unit)? = null
     }
 
     override fun onCreateView(
@@ -106,15 +107,14 @@ class PlanAddDialog: DialogFragment() {
 
 
     private fun addPlan() {
-//        val title = binding.etDialogTitle.text.toString()
-//        val period = binding.etDialogPeriod.text.toString()
-//        val url = binding.etDialogUrl.text.toString()
-//        val tag= binding.etDialogTag.text
-//        val plan = Plan(1, title, divideStartToEnd(period).first, divideStartToEnd(period).second, url, 123, 50)
-//        addCalendarPlan(plan)
-        val plan = Plan(1, "새로 생긴 일정인데 절대 표시안되니까 알아서하게", addTime(24), addTime(25), "url", 123, 50)
+        val title = binding.etDialogTitle.text.toString()
+        val period = binding.etDialogPeriod.text.toString()
+        val url = binding.etDialogUrl.text.toString()
+        val tag= binding.etDialogTag.text
+        val plan = Plan(1, title, divideStartToEnd(period).first, divideStartToEnd(period).second, url, 123, 50)
 
         onDismissListener?.invoke(plan)
+        onReDrawListener?.invoke()
         dialog?.dismiss()
     }
 }
