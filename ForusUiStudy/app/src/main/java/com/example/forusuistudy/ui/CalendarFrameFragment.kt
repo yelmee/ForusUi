@@ -10,8 +10,12 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.example.forusuistudy.R
 import com.example.forusuistudy.adapter.CalendarAdapter
+import com.example.forusuistudy.adapter.CalendarAdapter.Companion.start
+import com.example.forusuistudy.custom.RectView
 import com.example.forusuistudy.databinding.ActivityCalendarBinding
 import com.example.forusuistudy.ui.CalendarFragment.Companion.removeRectView
+import com.example.forusuistudy.utils.CalendarUtils.Companion.changeLongToString
+import org.joda.time.DateTime
 
 class CalendarFrameFragment : Fragment() {
 
@@ -42,12 +46,20 @@ class CalendarFrameFragment : Fragment() {
             registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
-                    Log.d("jyl", "${this.javaClass.name}: onPageSelected")
+                     val date = DateTime(start).plusMonths(position - CalendarAdapter.START_POSITION).millis
+                    Log.d("jyl", "${this.javaClass.name}: date -> ${changeLongToString(date)}")
+
+                    onMonthListener?.invoke(changeLongToString(date))
                     removeRectView()
                 }
             })
         }
 
         return binding.root
+    }
+
+    companion object{
+        var onMonthListener: ((String) -> Unit)? = null
+
     }
 }

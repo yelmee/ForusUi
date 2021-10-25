@@ -16,8 +16,11 @@ import com.example.forusuistudy.R
 import com.example.forusuistudy.data.Plan
 import com.example.forusuistudy.data.PlanSet
 import com.example.forusuistudy.dialog.PlanAddDialog
+import com.example.forusuistudy.ui.CalendarFragment
+import com.example.forusuistudy.ui.CalendarFrameFragment
 import com.example.forusuistudy.utils.CalendarUtils.Companion.WEEKS_PER_MONTH
 import com.example.forusuistudy.utils.CalendarUtils.Companion.addTime
+import com.example.forusuistudy.utils.CalendarUtils.Companion.filterCurMonth
 import com.example.forusuistudy.utils.CalendarUtils.Companion.getPrevOffSet
 import com.example.forusuistudy.utils.CalendarUtils.Companion.getWeekOfMonth
 import org.joda.time.DateTime
@@ -43,73 +46,89 @@ class RectView @JvmOverloads constructor(
     private val nullPlan = PlanSet(-1, "null", "null", "null")
     private var editList = ArrayList<ArrayList<PlanSet>>()
     private var planSet = PlanSet(-1, "", null, null)
-    private val saturdayList = arrayListOf<String>() // 주의 마지막 요일인 토요일에 해당되는 날짜의 리스트
+    private var saturdayList = arrayListOf<String>() // 주의 마지막 요일인 토요일에 해당되는 날짜의 리스트
 
     private val fmt = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss")
     private val fmtOut = DateTimeFormat.forPattern("yyyy-MM-dd")
+    private val fmt2 = DateTimeFormat.forPattern("yyyy.MM.dd")
 
     private var _height: Float = 0f
     private var iHeight = 0F
     private var iWidth = 0F
 
     private val allDay = WEEKS_PER_MONTH * DAYS_PER_WEEK
-    private val firstDayOfMonth = DateTime().withDayOfMonth(1)
+    private var firstDayOfMonth = DateTime().withDayOfMonth(1)
     private val prevOffSet = getPrevOffSet(firstDayOfMonth)
-    private val firstDayOfCalendar = firstDayOfMonth.minusDays(prevOffSet)
+    private var firstDayOfCalendar = firstDayOfMonth.minusDays(prevOffSet)
     private val saturdayNum = "6"
 
     companion object {
-        var originList = ArrayList<Plan>()
+        var originList = listOf<Plan>()
+        var allList = ArrayList<Plan>()
         var onDismissListener: ((Plan) -> Unit)? = null
         var onDrawListener: (() -> Unit)? = null
-
+        var onMonthListener: ((String) -> Unit)? = null
     }
 
     init {
-        Log.d("jyl", "$this: init")
 //        setViewModel(data)
 
         nullList.add(nullPlan)
+        Log.d("jyl", "${this.javaClass.name}: init")
+
         PlanAddDialog.onDismissListener = onDismissListener
         onDismissListener = { plan ->
             Log.d("jyl", "${this.javaClass.name}: onDismissListener")
 
-            originList.add(plan)
+            allList.add(plan)
 
             initEditList()
             editToWeekSchedule()
 
             removeAllViews()
-
-            /**
-             *  removeAllViewsInLayout()
-             *  invalidate()
-             *  requestLayout()
-             */
-
         }
 
         setWillNotDraw(false)
         context.withStyledAttributes(attrs, R.styleable.RectView, defStyleAttr, defStyleRes) {
             _height = getDimension(R.styleable.RectView_rectHeight, 0f)
         }
-
         initOriginList()
         initEditList()
-       setSaturdayList()
-        editToWeekSchedule()
+
+        CalendarFrameFragment.onMonthListener = onMonthListener
+        onMonthListener = { curMonth ->
+            Log.d("jyl", "${this.javaClass.name}: onMonthListener")
+            Log.d("jyl", "${this.javaClass.name}: month $curMonth")
+            firstDayOfMonth = fmt2.parseDateTime(curMonth).withDayOfMonth(1)
+            originList = filterCurMonth(curMonth, allList)
+
+            setSaturdayList()
+            editToWeekSchedule()
+
+            removeAllViews()
+        }
     }
 
     private fun initOriginList() {
-        originList = ArrayList<Plan>()
-        var data = Plan(1, "알고리즘 공부", addTime(5), addTime(7), "www.naver.com", 12, 80)
-        originList.add(data)
+        allList = ArrayList<Plan>()
+        var data = Plan(1, "일정1", addTime(5, 0), addTime(7, 0), "www.naver.com", 12, 80)
+        allList.add(data)
 
-        data = Plan(1, "디자인 그리기", addTime(22), addTime(23), "www.naver.com", 12, 80)
-        originList.add(data)
+        data = Plan(1, "일정2", addTime(22, 1), addTime(23, 1), "www.naver.com", 12, 80)
+        allList.add(data)
+
+        data = Plan(1, "일정3", addTime(22, 1), addTime(29, 1), "www.naver.com", 12, 80)
+        allList.add(data)
+
+        data = Plan(1, "일정4", addTime(18, 0), addTime(21, 0), "www.naver.com", 12, 80)
+        allList.add(data)
+
+        data = Plan(1, "일정5", addTime(17, 0), addTime(18, 0), "www.naver.com", 12, 80)
+        allList.add(data)
     }
 
     private fun initEditList() {
+        Log.d("jyl", "${this.javaClass.name}: init EditList")
         editList = ArrayList<ArrayList<PlanSet>>()
         for (i in 0..5) {
             editList.add(nullList)
@@ -120,6 +139,7 @@ class RectView @JvmOverloads constructor(
         /**
          * 선택된 날짜의 월에 해당하는 토요일 일자를 리스트로 담기
          */
+        saturdayList = arrayListOf<String>()
         for (i in 0 until allDay) {
             val curDateDayOfWeek = firstDayOfCalendar.plusDays(i).dayOfWeek().asString
             if (curDateDayOfWeek.equals(saturdayNum)) {
@@ -133,14 +153,14 @@ class RectView @JvmOverloads constructor(
         /**
          * 일정 리스트를 주간 일정 리스트로 재편집
          */
-        loop@ for (i in 0 until originList.size) {
+        for (i in 0 until originList.size) {
             val period = Days.daysBetween(
                 fmt.parseDateTime(originList[i].termFrom).toLocalDate(),
                 fmt.parseDateTime(originList[i].termTo).toLocalDate()
             ).days + 1
 
             var firstDay = fmt.parseDateTime(originList[i].termFrom)
-            for (j in 0 until period) {
+            loop@ for (j in 0 until period) {
                 val curDate =
                     fmt.parseDateTime(originList[i].termFrom).plusDays(j)
 
@@ -216,7 +236,7 @@ class RectView @JvmOverloads constructor(
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-        Log.d("jyl", "$this: onLayout")
+        Log.d("jyl", "${this.javaClass.name}: onLayout")
         iWidth = (width / DAYS_PER_WEEK).toFloat()
         iHeight = (height / WEEKS_PER_MONTH).toFloat()
 
@@ -241,7 +261,6 @@ class RectView @JvmOverloads constructor(
             }
 
             val row = editList[currentWeekIndex].size   // 한주차에서 필요한 열 개수 반환
-//            val row = 2   // 한주차에서 필요한 열 개수 반환
 
             val rowHeight = 240    // 열이 늘어날 때마다 필요한 높이
             view.layout(
@@ -255,6 +274,7 @@ class RectView @JvmOverloads constructor(
     }
 
     private fun initRect() {
+        Log.d("jyl", "${this.javaClass.name}: iniRect")
         var index = 0
         editList.forEach { _ ->
             var h = iHeight

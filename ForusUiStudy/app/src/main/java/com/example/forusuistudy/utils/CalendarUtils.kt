@@ -6,11 +6,9 @@ import android.util.Log
 import androidx.annotation.ColorInt
 import androidx.annotation.IntRange
 import com.example.forusuistudy.data.Plan
-import com.example.forusuistudy.data.PlanSet
 import com.example.forusuistudy.data.PlanWithRow
 import org.joda.time.DateTime
 import org.joda.time.DateTimeConstants
-import org.joda.time.LocalDateTime
 import org.joda.time.Weeks
 import org.joda.time.format.DateTimeFormat
 import java.util.*
@@ -88,18 +86,18 @@ class CalendarUtils {
                 date).weeks + 1
         }
 
-        fun addTime(day: Int): String? {
-            val date = DateTime().withDayOfMonth(day).withTimeAtStartOfDay()
+        fun addTime(day: Int, minusMonth: Int): String? {
+            val date = DateTime().withDayOfMonth(day).withTimeAtStartOfDay().plusMonths(minusMonth)
             return date.toString(fmt)
         }
 
         fun isOverlappingDate(startDate1: Date, endDate1: Date, startDate2: Date, endDate2: Date): Boolean {
             var isOverlap1 = false
             var isOverlap2 = false
-            if (startDate1.before(endDate2)) {
+            if (startDate1.before(endDate2) || startDate1 == endDate2) {
                 isOverlap1 = true
             }
-            if (startDate2.before(endDate1)) {
+            if (startDate2.before(endDate1) || startDate2 == endDate1) {
                 isOverlap2 = true
             }
             return isOverlap1 && isOverlap2
@@ -143,6 +141,12 @@ class CalendarUtils {
             val end = fmt3.parseDateTime(period.substring(11,21)).toString(fmt)
             val pair = Pair(start, end)
             return pair
+        }
+
+        fun filterCurMonth(month: String, list: ArrayList<Plan>): List<Plan> {
+            return list.filter {
+                it.termTo!!.contains(month)
+            }
         }
     }
 }

@@ -16,7 +16,7 @@ import org.joda.time.DateTime
 class CalendarFragment : Fragment() {
 
     private var millis: Long = 0L
-    val onDismissListener: ((List<String>) -> Unit)? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +36,7 @@ class CalendarFragment : Fragment() {
             container,
             false
         )
+
 
         binding.calendarMonthNum.text = DateTime(millis).toString("yyyy.MM")
         binding.calendarView.initCalendar(DateTime(millis), getMonthList(DateTime(millis)).first)

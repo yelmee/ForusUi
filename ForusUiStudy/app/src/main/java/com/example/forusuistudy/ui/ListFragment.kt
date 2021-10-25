@@ -37,7 +37,7 @@ class ListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val item = Plan(1, "CSS 만들기", addTime(3), addTime(10), "http://naver.com", 13, 100)
+        val item = Plan(1, "CSS 만들기", addTime(3,0), addTime(10,0), "http://naver.com", 13, 100)
         val list = mutableListOf<Plan>()
         list.add(item)
         list.add(item)

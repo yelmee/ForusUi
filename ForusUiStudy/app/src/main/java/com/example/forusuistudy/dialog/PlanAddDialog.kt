@@ -1,13 +1,8 @@
 package com.example.forusuistudy.dialog
 
 import android.app.Dialog
-import android.content.Context
-import android.content.DialogInterface
-import android.database.DatabaseUtils
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import android.util.Size
 import android.view.*
 import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
@@ -15,8 +10,6 @@ import androidx.fragment.app.DialogFragment
 import com.example.forusuistudy.R
 import com.example.forusuistudy.data.Plan
 import com.example.forusuistudy.databinding.DialogAddPlanBinding
-import com.example.forusuistudy.ui.CalendarFragment
-import com.example.forusuistudy.utils.CalendarUtils.Companion.addTime
 import com.example.forusuistudy.utils.CalendarUtils.Companion.changeLongToString
 import com.example.forusuistudy.utils.CalendarUtils.Companion.divideStartToEnd
 import com.google.android.material.datepicker.MaterialDatePicker
