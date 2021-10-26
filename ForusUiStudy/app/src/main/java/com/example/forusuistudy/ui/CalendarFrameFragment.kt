@@ -15,6 +15,7 @@ import com.example.forusuistudy.custom.RectView
 import com.example.forusuistudy.databinding.ActivityCalendarBinding
 import com.example.forusuistudy.ui.CalendarFragment.Companion.removeRectView
 import com.example.forusuistudy.utils.CalendarUtils.Companion.changeLongToString
+import com.example.forusuistudy.utils.CalendarUtils.Companion.changeLongToString2
 import org.joda.time.DateTime
 
 class CalendarFrameFragment : Fragment() {
@@ -47,9 +48,8 @@ class CalendarFrameFragment : Fragment() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
                      val date = DateTime(start).plusMonths(position - CalendarAdapter.START_POSITION).millis
-                    Log.d("jyl", "${this.javaClass.name}: date -> ${changeLongToString(date)}")
 
-                    onMonthListener?.invoke(changeLongToString(date))
+                    onMonthListener?.invoke(changeLongToString2(date))
                     removeRectView()
                 }
             })

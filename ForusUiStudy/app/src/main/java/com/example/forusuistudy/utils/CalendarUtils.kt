@@ -22,6 +22,7 @@ class CalendarUtils {
         private val fmt = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss")
         private val fmt2 = DateTimeFormat.forPattern("yyyy-MM-dd")
         private val fmt3 = DateTimeFormat.forPattern("yyyy.MM.dd")
+        private val fmt4 = DateTimeFormat.forPattern("MM/yyyy")
 
         /**
          * 선택된 날짜에 해당하는 월간 달력을 반환한다.
@@ -110,7 +111,9 @@ class CalendarUtils {
         fun changeLongToString(longDate: Long): String{
             return DateTime(longDate).toString(fmt3)
         }
-
+        fun changeLongToString2(longDate: Long): String{
+            return DateTime(longDate).toString(fmt4)
+        }
         fun changeStringFormat(stringDate: String): String {
             return fmt.parseDateTime(stringDate).toString(fmt2)
         }
@@ -143,9 +146,9 @@ class CalendarUtils {
             return pair
         }
 
-        fun filterCurMonth(month: String, list: ArrayList<Plan>): List<Plan> {
+        fun filterMonthlyPlan(month: String, list: ArrayList<Plan>): List<Plan> {
             return list.filter {
-                it.termTo!!.contains(month)
+                it.endDate!!.contains(month)
             }
         }
     }

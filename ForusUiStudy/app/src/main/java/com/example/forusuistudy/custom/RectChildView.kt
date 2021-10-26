@@ -7,20 +7,15 @@ import android.graphics.Paint
 import android.graphics.Rect
 import android.text.TextPaint
 import android.util.AttributeSet
-import android.util.Log
 import android.view.ContextThemeWrapper
-import android.view.MotionEvent
 import android.view.View
 import androidx.annotation.AttrRes
 import androidx.annotation.StyleRes
 import androidx.core.content.withStyledAttributes
 import com.example.forusuistudy.R
-import com.example.forusuistudy.data.Plan
 import com.example.forusuistudy.data.PlanSet
 import com.example.forusuistudy.data.PlanWithRow
-import com.example.forusuistudy.dialog.PlanAddDialog
 import com.example.forusuistudy.utils.CalendarUtils.Companion.changeStringToDate
-import com.example.forusuistudy.utils.CalendarUtils.Companion.getLogOfArray
 import com.example.forusuistudy.utils.CalendarUtils.Companion.isOverlappingDate
 import org.joda.time.format.DateTimeFormat
 
@@ -29,28 +24,15 @@ class RectChildView @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     @AttrRes defStyleAttr: Int = R.attr.rectViewStyle,
     @StyleRes defStyleRes: Int = R.style.Rect_rectShape,
-    private val lili: ArrayList<PlanSet>,
+    private val weeklyPlanList: ArrayList<PlanSet>,
     private val iWidth: Float,
     private val iHeight: Float,
-    private val index: Int
 ) : View(ContextThemeWrapper(context, defStyleRes), attrs, defStyleAttr) {
     private val bounds = Rect()
     private val paint = Paint()
     private var paintText = Paint()
-    var indexx = 1
-
-    companion object {
-        private var onDrawListener: (() -> Unit)? = null
-    }
 
     init {
-        RectView.onDrawListener = onDrawListener
-        onDrawListener = {
-            indexx = 1000
-            invalidate()
-            requestLayout()
-        }
-
         context.withStyledAttributes(attrs, R.styleable.RectView, defStyleAttr, defStyleRes) {
             val planRectSize = getString(R.styleable.RectView_termFrom)
 
@@ -72,9 +54,7 @@ class RectChildView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
 
-        var list = lili
-        indexx += 1
-
+        var weeklyList = weeklyPlanList
 
         if (canvas == null) return
 
@@ -87,13 +67,13 @@ class RectChildView @JvmOverloads constructor(
         var startDayOfWeek = 0
         var endDayOfWeek = 0
 
-        var drawnList = arrayListOf<PlanWithRow>()
-        for (i in 1 until list.size) {
+        var drawnPlanListOfWeek = arrayListOf<PlanWithRow>()
+        for (i in 1 until weeklyList.size) {
 
             startDayOfWeek =
-                ifSunDaySetWeekNumToZero(fmt.parseDateTime(list[i].startDate).dayOfWeek)    // 시작일의 요일인덱스(0: 일요일 ~ 6: 토요일)
+                ifSunDaySetWeekNumToZero(fmt.parseDateTime(weeklyList[i].startDate).dayOfWeek)    // 시작일의 요일인덱스(0: 일요일 ~ 6: 토요일)
             endDayOfWeek =
-                ifSunDaySetWeekNumToZero(fmt.parseDateTime(list[i].endDate).dayOfWeek)       // 마감일의 요일인덱스
+                ifSunDaySetWeekNumToZero(fmt.parseDateTime(weeklyList[i].endDate).dayOfWeek)       // 마감일의 요일인덱스
 
             val rectHeight = 50F // 사각형 간격
             val rectInterval = 60F  // 사각형 높이
@@ -105,15 +85,15 @@ class RectChildView @JvmOverloads constructor(
             /**
              * 이미 그려진 일정과 겹치지 않게 검사한다
              */
-            for (j in 0 until drawnList.size) {
+            for (j in 0 until drawnPlanListOfWeek.size) {
 
-                val dateStart1 = changeStringToDate(list[i].startDate!!)
-                val dateEnd1 = changeStringToDate(list[i].endDate!!)
+                val dateStart1 = changeStringToDate(weeklyList[i].startDate!!)
+                val dateEnd1 = changeStringToDate(weeklyList[i].endDate!!)
 
-                val dateStart2 = changeStringToDate(drawnList[j].startDate!!)
-                val dateEnd2 = changeStringToDate(drawnList[j].endDate!!)
+                val dateStart2 = changeStringToDate(drawnPlanListOfWeek[j].startDate!!)
+                val dateEnd2 = changeStringToDate(drawnPlanListOfWeek[j].endDate!!)
 
-                val isRowChanged = currentRowIndex != drawnList[j].row  // 이전 row 검사가 끝났을 때 true
+                val isRowChanged = currentRowIndex != drawnPlanListOfWeek[j].row  // 이전 row 검사가 끝났을 때 true
                 isThisRowOverlap =
                     isOverlappingDate(dateStart1, dateEnd1, dateStart2, dateEnd2) // date 검사
 
@@ -125,7 +105,7 @@ class RectChildView @JvmOverloads constructor(
                  * 2. drawnList row의 마지막 index에 날짜를 추가
                  */
                 if (!isThisRowOverlap && isRowChanged
-                    || !isThisRowOverlap && drawnList.size == (j + 1)) {
+                    || !isThisRowOverlap && drawnPlanListOfWeek.size == (j + 1)) {
 
                     top = iHeight + (currentRowIndex * rectHeight) + d
                     bottom = iHeight + rectInterval + (currentRowIndex * rectHeight)
@@ -134,30 +114,30 @@ class RectChildView @JvmOverloads constructor(
                         currentRowIndex++
                     }
                     val planWithRow = PlanWithRow(
-                        list[i].id,
-                        list[i].title,
-                        list[i].startDate,
-                        list[i].endDate,
+                        weeklyList[i].id,
+                        weeklyList[i].title,
+                        weeklyList[i].startDate,
+                        weeklyList[i].endDate,
                         currentRowIndex
                     )
-                    drawnList.add(j, planWithRow)
+                    drawnPlanListOfWeek.add(j, planWithRow)
 
                     /**
                      * overlap된 날짜가 있으며, 마지막 그려질 일정일 때
                      * -> 다음 row의 y좌표에 일정 그림
                      */
-                } else if (isThisRowOverlap && drawnList.size == (j + 1)) {
+                } else if (isThisRowOverlap && drawnPlanListOfWeek.size == (j + 1)) {
                     top = iHeight + ((currentRowIndex + 1) * rectHeight) + d
                     bottom = iHeight + rectInterval + ((currentRowIndex + 1) * rectHeight)
 
                     val planWithRow = PlanWithRow(
-                        list[i].id,
-                        list[i].title,
-                        list[i].startDate,
-                        list[i].endDate,
+                        weeklyList[i].id,
+                        weeklyList[i].title,
+                        weeklyList[i].startDate,
+                        weeklyList[i].endDate,
                         currentRowIndex + 1
                     )
-                    drawnList.add(j + 1, planWithRow)
+                    drawnPlanListOfWeek.add(j + 1, planWithRow)
 
                 }
                 /**
@@ -171,25 +151,25 @@ class RectChildView @JvmOverloads constructor(
             /**
              * 비교할 일정이 없으며, 처음 일정을 그려야할 때 검사없이 drawnList 에 일정 추가
              */
-            if (drawnList.size == 0) {
+            if (drawnPlanListOfWeek.size == 0) {
                 top = iHeight + (currentRowIndex * rectHeight) + d
                 bottom = iHeight + rectInterval + (currentRowIndex * rectHeight)
 
                 val planWithRow = PlanWithRow(
-                    list[i].id,
-                    list[i].title,
-                    list[i].startDate,
-                    list[i].endDate,
+                    weeklyList[i].id,
+                    weeklyList[i].title,
+                    weeklyList[i].startDate,
+                    weeklyList[i].endDate,
                     currentRowIndex
                 )
-                drawnList.add(planWithRow)
+                drawnPlanListOfWeek.add(planWithRow)
             }
 
             left = (startDayOfWeek) * iWidth
             right = (endDayOfWeek + 1) * iWidth
 
             canvas.drawRect(left, top, right, bottom, paint)
-            val title = list[i].title
+            val title = weeklyList[i].title
 
             paintText.getTextBounds(title, 0, title.length, bounds)
             canvas.drawText(

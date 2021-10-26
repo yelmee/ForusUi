@@ -86,10 +86,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="40dp"
-                app:end="@{item.termTo}"
+                app:end="@{item.endDate}"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_rcItem_title"
-                app:start="@{item.termFrom}"
+                app:start="@{item.startDate}"
                 tools:text="2021.06.01~2021.06.22" />
 
             <TextView
