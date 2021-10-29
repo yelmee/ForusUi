@@ -39,7 +39,7 @@ class RectView @JvmOverloads constructor(
     //    private val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
     //    private val binding: FragmentCalendarBinding = FragmentCalendarBinding.inflate(inflater, this, false)
     private val paint = Paint()
-    private val emptyList = ArrayList<PlanSet>()
+    private var emptyList = ArrayList<PlanSet>()
     private val emptyPlan = PlanSet(-1, "null", "null", "null")
     private var weeklyPlanList = ArrayList<ArrayList<PlanSet>>()
     private var planSet = PlanSet(-1, "", null, null)
@@ -73,6 +73,7 @@ class RectView @JvmOverloads constructor(
         context.withStyledAttributes(attrs, R.styleable.RectView, defStyleAttr, defStyleRes) {
             _height = getDimension(R.styleable.RectView_rectHeight, 0f)
         }
+        emptyList.add(emptyPlan)
         initYearlyPlanList()
         initWeeklyPlanList()
         editMonthlyPlanToWeekPlan()
@@ -130,7 +131,6 @@ class RectView @JvmOverloads constructor(
     }
 
     private fun initWeeklyPlanList() {
-        emptyList.add(emptyPlan)
         weeklyPlanList = ArrayList<ArrayList<PlanSet>>()
         for (i in 0..5) {
             weeklyPlanList.add(emptyList)
