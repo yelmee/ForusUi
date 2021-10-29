@@ -37,7 +37,7 @@ class RectView @JvmOverloads constructor(
     var index = 3
 
     //    private val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-//    private val binding: FragmentCalendarBinding = FragmentCalendarBinding.inflate(inflater, this, false)
+    //    private val binding: FragmentCalendarBinding = FragmentCalendarBinding.inflate(inflater, this, false)
     private val paint = Paint()
     private val emptyList = ArrayList<PlanSet>()
     private val emptyPlan = PlanSet(-1, "null", "null", "null")
@@ -69,8 +69,13 @@ class RectView @JvmOverloads constructor(
     }
 
     init {
-
-        Log.d("jyl", "${this.javaClass.name}: init")
+        setWillNotDraw(false)
+        context.withStyledAttributes(attrs, R.styleable.RectView, defStyleAttr, defStyleRes) {
+            _height = getDimension(R.styleable.RectView_rectHeight, 0f)
+        }
+        initYearlyPlanList()
+        initWeeklyPlanList()
+        editMonthlyPlanToWeekPlan()
 
         PlanAddDialog.onDismissListener = onDialogDismissListener
         onDialogDismissListener = { plan ->
@@ -86,27 +91,18 @@ class RectView @JvmOverloads constructor(
             removeAllViews()
         }
 
-        setWillNotDraw(false)
-        context.withStyledAttributes(attrs, R.styleable.RectView, defStyleAttr, defStyleRes) {
-            _height = getDimension(R.styleable.RectView_rectHeight, 0f)
-        }
-        initYearlyPlanList()
-        initWeeklyPlanList()
-
         CalendarFrameFragment.onMonthListener = onCalendarSelectedListener
         onCalendarSelectedListener = { month ->
             this.curMonth = month
             Log.d("jyl", "${this.javaClass.name}: onMonthListener")
             Log.d("jyl", "${this.javaClass.name}: month $month")
 
+            initWeeklyPlanList()
             firstDayOfMonth = fmt4.parseDateTime(month).withDayOfMonth(1)
-            Log.d("jyl", "${this.javaClass.name}: ${firstDayOfMonth.toString(fmt)}")
-            Log.d("jyl", "${this.javaClass.name}: ${yearlyPlanList[0].endDate}")
             monthlyPlanList = filterMonthlyPlan(month, yearlyPlanList)
 
             setWeekLastDaysOfMonth()
             editMonthlyPlanToWeekPlan()
-
             removeAllViews()
         }
     }
@@ -150,7 +146,7 @@ class RectView @JvmOverloads constructor(
          */
         weekLastDayList = arrayListOf<String>()
         for (i in 0 until allDay) {
-            val curDateDayOfWeek = firstDayOfCalendar.plusDays(i).dayOfWeek().asString
+             val curDateDayOfWeek = firstDayOfCalendar.plusDays(i).dayOfWeek().asString
             if (curDateDayOfWeek.equals(lastDayOfWeekIndex)) {
                 weekLastDayList.add(firstDayOfCalendar.plusDays(i).toString(fmtOut))
             }

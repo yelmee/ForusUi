@@ -47,6 +47,7 @@ class CalendarFrameFragment : Fragment() {
             registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
+                    Log.d("jyl", "${this.javaClass.name}: onPageSelected")
                      val date = DateTime(start).plusMonths(position - CalendarAdapter.START_POSITION).millis
 
                     onMonthListener?.invoke(changeLongToString2(date))

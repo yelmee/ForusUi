@@ -21,13 +21,13 @@ class CalendarAdapter(fm: FragmentActivity) : FragmentStateAdapter(fm) {
     }
 
     override fun getItemId(position: Int): Long {
-        Log.d("jyl", "${this.javaClass.name}: getItemId ${changeLongToString(DateTime(start).plusMonths(position - START_POSITION).millis)}")
+//        Log.d("jyl", "${this.javaClass.name}: getItemId ${changeLongToString(DateTime(start).plusMonths(position - START_POSITION).millis)}")
         return DateTime(start).plusMonths(position - START_POSITION).millis
     }
 
     override fun containsItem(itemId: Long): Boolean {
         val date = DateTime(itemId)
-        Log.d("jyl", "${this.javaClass.name}: containsItem ${changeLongToString(itemId)}")
+//        Log.d("jyl", "${this.javaClass.name}: containsItem ${changeLongToString(itemId)}")
         return date.dayOfMonth == 1 && date.millisOfDay == 0
     }
 

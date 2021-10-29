@@ -10,7 +10,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
         <TextView
             android:layout_width="match_parent"
@@ -32,7 +32,7 @@
         <com.example.forusuistudy.custom.CalendarView
             android:id="@+id/calendarView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent" />
 
         <com.example.forusuistudy.custom.RectView
             android:id="@+id/rectangleView"

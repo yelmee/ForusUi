@@ -136,7 +136,7 @@
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/vp_today_list"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="500dp" />
 
 <!--                <com.google.android.material.tabs.TabLayout-->
 <!--                    android:id="@+id/tl_main_tabLayout"-->
