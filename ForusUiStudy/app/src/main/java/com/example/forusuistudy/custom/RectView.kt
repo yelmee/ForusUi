@@ -11,6 +11,7 @@ import androidx.annotation.StyleRes
 import androidx.core.content.withStyledAttributes
 import androidx.core.view.children
 import com.example.forusuistudy.R
+import com.example.forusuistudy.adapter.CalendarAdapter
 import com.example.forusuistudy.data.Plan
 import com.example.forusuistudy.data.PlanSet
 import com.example.forusuistudy.dialog.PlanAddDialog
@@ -66,6 +67,7 @@ class RectView @JvmOverloads constructor(
         var yearlyPlanList = ArrayList<Plan>()
         var onDialogDismissListener: ((Plan) -> Unit)? = null
         var onCalendarSelectedListener: ((String) -> Unit)? = null
+        var onCreateCalendarCallback:((String) -> Unit)? = null
     }
 
     init {
@@ -74,9 +76,19 @@ class RectView @JvmOverloads constructor(
             _height = getDimension(R.styleable.RectView_rectHeight, 0f)
         }
         emptyList.add(emptyPlan)
-        initYearlyPlanList()
-        initWeeklyPlanList()
-        editMonthlyPlanToWeekPlan()
+
+        CalendarAdapter.CreateCalendarCallback = onCreateCalendarCallback
+        onCreateCalendarCallback = { month ->
+            Log.d("jyl", "${this.javaClass.name}: $month")
+            initYearlyPlanList()
+            initWeeklyPlanList()
+            setWeekLastDaysOfMonth()
+            firstDayOfMonth = fmt4.parseDateTime(month).withDayOfMonth(1)
+            monthlyPlanList = filterMonthlyPlan(month, yearlyPlanList)
+            editMonthlyPlanToWeekPlan()
+            removeAllViews()
+        }
+
 
         PlanAddDialog.onDismissListener = onDialogDismissListener
         onDialogDismissListener = { plan ->
@@ -151,6 +163,7 @@ class RectView @JvmOverloads constructor(
                 weekLastDayList.add(firstDayOfCalendar.plusDays(i).toString(fmtOut))
             }
         }
+        Log.d("jyl", "${this.javaClass.name}: ${weekLastDayList.toList()}")
     }
 
     private fun editMonthlyPlanToWeekPlan() {
@@ -201,7 +214,8 @@ class RectView @JvmOverloads constructor(
                 }
             }
         }
-
+        Log.d("jyl", "${this.javaClass.name}: edited ${weeklyPlanList.toList()}")
+        removeAllViews()
     }
 
     private fun setWeeklyPlanList(plan: PlanSet) {
@@ -238,7 +252,7 @@ class RectView @JvmOverloads constructor(
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        Log.d("jyl", "$this: onMeasure")
+        Log.d("jyl", "${this.javaClass.name}: onMeasure")
         val h = paddingTop + paddingBottom + max(
             suggestedMinimumHeight,
             (_height * WEEKS_PER_MONTH).toInt()
@@ -265,9 +279,9 @@ class RectView @JvmOverloads constructor(
         children.forEach { view ->
 
             val topMargin = -5
-            if (curWeekIndex >= weeklyPlanList.size) {
-                return
-            }
+//            if (curWeekIndex >= weeklyPlanList.size) {
+//                return
+//            }
 
             val row = weeklyPlanList[curWeekIndex].size   // 한주차에서 필요한 열 개수 반환
 
@@ -285,6 +299,7 @@ class RectView @JvmOverloads constructor(
     private fun initRectChildView() {
         Log.d("jyl", "${this.javaClass.name}: iniRect")
         var index = 0
+        Log.d("jyl", "${this.javaClass.name}: ${weeklyPlanList.toList()}")
         weeklyPlanList.forEach { _ ->
             var h = iHeight
             var w = iWidth

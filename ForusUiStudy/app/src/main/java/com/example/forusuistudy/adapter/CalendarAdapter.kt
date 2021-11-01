@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.forusuistudy.ui.CalendarFragment
 import com.example.forusuistudy.utils.CalendarUtils.Companion.changeLongToString
+import com.example.forusuistudy.utils.CalendarUtils.Companion.changeLongToString2
 import org.joda.time.DateTime
 
 class CalendarAdapter(fm: FragmentActivity) : FragmentStateAdapter(fm) {
@@ -17,6 +18,7 @@ class CalendarAdapter(fm: FragmentActivity) : FragmentStateAdapter(fm) {
         val millis = getItemId(position)
 
         Log.d("jyl", "${this.javaClass.name}: createFragment ${changeLongToString(millis)}")
+        CreateCalendarCallback?.invoke(changeLongToString2(millis))
         return CalendarFragment.newInstance(millis)
     }
 
@@ -34,5 +36,6 @@ class CalendarAdapter(fm: FragmentActivity) : FragmentStateAdapter(fm) {
     companion object {
         const val START_POSITION = Int.MAX_VALUE / 2
         var start: Long = DateTime().withDayOfMonth(1).withTimeAtStartOfDay().millis
+        var CreateCalendarCallback:((String) -> Unit)? = null
     }
 }

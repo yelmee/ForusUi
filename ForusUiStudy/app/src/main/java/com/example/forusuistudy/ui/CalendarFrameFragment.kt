@@ -61,6 +61,5 @@ class CalendarFrameFragment : Fragment() {
 
     companion object{
         var onMonthListener: ((String) -> Unit)? = null
-
     }
 }
